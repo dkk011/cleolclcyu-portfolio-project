@@ -27,7 +27,8 @@ export default function KeywordSection() {
 
   return (
     <section>
-      <h2>ABOUT ME</h2>
+      <p>WORD CLOUD</p>
+      <h2>저는 이런 사람입니다</h2>
 
       <KeywordCloud
         keywords={keywords}

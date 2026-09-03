@@ -1,36 +1,42 @@
-interface Career {
-  period: string;
-  company: string;
-  position: string;
-  description: string;
-}
+import { useEffect, useState } from 'react';
 
-const careers: Career[] = [
-  {
-    period: '2026',
-    company: '현대오토에버 모빌리티 SW 스쿨',
-    position: '웹앱 4기',
-    description:
-      'React, TypeScript 기반 웹앱 개발 및 프로젝트 수행',
-  },
-];
+import { getCareers } from '../../entities/career/api/getCareers';
+import type { Career } from '../../entities/career/model/types';
 
 export default function CareerSection() {
+  const [careers, setCareers] = useState<Career[]>([]);
+
+  useEffect(() => {
+    const fetchCareers = async () => {
+      try {
+        const data = await getCareers();
+        setCareers(data);
+      } catch (error) {
+        console.error('Career 불러오기 실패:', error);
+      }
+    };
+
+    fetchCareers();
+  }, []);
+
   return (
     <section id="career">
-      <h2>CAREER</h2>
+      <p>CAREER</p>
+      <h2>지금까지의 여정</h2>
 
       <div>
         {careers.map((career) => (
-          <article key={`${career.period}-${career.company}`}>
-            <p>{career.period}</p>
-            <p>{career.company}</p>
-            <p>{career.position}</p>
+          <article key={career.id}>
+            <time dateTime={career.start_date}>
+              {career.start_date.slice(0, 7).replace('-', '.')}
+            </time>
+
+            <h3>{career.title}</h3>
+
             <p>{career.description}</p>
           </article>
         ))}
       </div>
-
     </section>
   );
 }

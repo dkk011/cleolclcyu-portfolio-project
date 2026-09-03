@@ -1,10 +1,17 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import { activities } from '../../entities/activity/model/data';
-import type { ActivityCategory } from '../../entities/activity/model/types';
+import { getActivities } from '../../entities/activity/api/getActivities';
+import type {
+  Activity,
+  ActivityCategory,
+} from '../../entities/activity/model/types';
+
+import ActivityDetail from './ActivityDetail';
 import ActivityItem from './ActivityItem';
 
-const categories: Array<'전체' | ActivityCategory> = [
+const categories: Array<
+  '전체' | ActivityCategory
+> = [
   '전체',
   '대외활동',
   '해커톤',
@@ -15,19 +22,131 @@ const categories: Array<'전체' | ActivityCategory> = [
 ];
 
 export default function ActivitiesSection() {
-  const [selectedCategory, setSelectedCategory] = useState<'전체' | ActivityCategory>('전체');
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const [selectedCategory, setSelectedCategory] =
+    useState<'전체' | ActivityCategory>('전체');
+
+  const [activeActivity, setActiveActivity] =
+    useState<Activity | null>(null);
+
+  const activityElements =
+    useRef<Map<number, HTMLDivElement>>(new Map());
+
+  useEffect(() => {
+    const fetchActivities = async () => {
+      try {
+        const data = await getActivities();
+
+        setActivities(data);
+
+        if (data.length > 0) {
+          setActiveActivity(data[0]);
+        }
+      } catch (error) {
+        console.error('Activities Error:', error);
+      }
+    };
+
+    fetchActivities();
+  }, []);
 
   const filteredActivities =
-    selectedCategory === '전체' ? activities : activities.filter(
-      (activity) => activity.category === selectedCategory
+    selectedCategory === '전체'
+      ? activities
+      : activities.filter(
+          (activity) =>
+            activity.category === selectedCategory,
+        );
+
+  useEffect(() => {
+    const elements = Array.from(
+      activityElements.current.values(),
     );
 
-  return (
-    <section id="activities">
-      <header>
-        <p>ACTIVITY</p>
+    if (elements.length === 0) {
+      return;
+    }
 
-        <h2>함께 배우고 도전한 순간들</h2>
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visibleEntries = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort(
+            (a, b) =>
+              Math.abs(
+                a.boundingClientRect.top -
+                  window.innerHeight * 0.4,
+              ) -
+              Math.abs(
+                b.boundingClientRect.top -
+                  window.innerHeight * 0.4,
+              ),
+          );
+
+        const target = visibleEntries[0]?.target;
+
+        if (!target) {
+          return;
+        }
+
+        const activityId = Number(
+          (target as HTMLElement).dataset.activityId,
+        );
+
+        const activity = filteredActivities.find(
+          (item) => item.id === activityId,
+        );
+
+        if (activity) {
+          setActiveActivity(activity);
+        }
+      },
+      {
+        root: null,
+        rootMargin: '-25% 0px -55% 0px',
+        threshold: [0, 0.25, 0.5, 0.75, 1],
+      },
+    );
+
+    elements.forEach((element) => {
+      observer.observe(element);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [filteredActivities]);
+
+  const setActivityRef =
+    (id: number) =>
+    (element: HTMLDivElement | null) => {
+      if (element) {
+        activityElements.current.set(id, element);
+      } else {
+        activityElements.current.delete(id);
+      }
+    };
+
+  const handleCategoryChange = (
+    category: '전체' | ActivityCategory,
+  ) => {
+    setSelectedCategory(category);
+
+    const nextActivities =
+      category === '전체'
+        ? activities
+        : activities.filter(
+            (activity) => activity.category === category,
+          );
+
+    setActiveActivity(nextActivities[0] ?? null);
+  };
+
+  return (
+    <section>
+      <header>
+        <h2>ACTIVITY</h2>
+        <p>활동</p>
       </header>
 
       <nav aria-label="활동 카테고리">
@@ -35,11 +154,9 @@ export default function ActivitiesSection() {
           <button
             key={category}
             type="button"
+            aria-pressed={selectedCategory === category}
             onClick={() =>
-              setSelectedCategory(category)
-            }
-            aria-pressed={
-              selectedCategory === category
+              handleCategoryChange(category)
             }
           >
             {category}
@@ -48,12 +165,20 @@ export default function ActivitiesSection() {
       </nav>
 
       <div>
-        {filteredActivities.map((activity) => (
-          <ActivityItem
-            key={activity.id}
-            activity={activity}
-          />
-        ))}
+        <div>
+          {filteredActivities.map((activity) => (
+            <ActivityItem
+              key={activity.id}
+              activity={activity}
+              isActive={
+                activeActivity?.id === activity.id
+              }
+              activityRef={setActivityRef(activity.id)}
+            />
+          ))}
+        </div>
+
+        <ActivityDetail activity={activeActivity} />
       </div>
     </section>
   );

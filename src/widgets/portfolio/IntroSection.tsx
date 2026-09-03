@@ -1,24 +1,67 @@
+import { useEffect, useState } from "react";
+import { getProfile } from "../../entities/profile/api/getProfile";
+import type { Profile } from "../../entities/profile/model/types";
+
 export default function IntroSection() {
+  const [profile, setProfile] = useState<Profile | null>(null);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const data = await getProfile();
+        setProfile(data);
+      } catch (error) {
+        console.error("Profile 불러오기 실패:", error);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
+  if (!profile) {
+    return <section id="intro">프로필을 불러오는 중입니다.</section>;
+  }
+
   return (
     <section id="intro">
-      <p>App Developer</p>
+      <span>{profile.role}</span>
 
-      <h1>
-        사용자의 시간을 아껴주는
-        <br />
-        인터페이스를 만듭니다.
-      </h1>
+      <h1>{profile.headline}</h1>
 
-      <p>
-        사용자의 입장에서 문제를 바라보고,
-        더 편리하고 직관적인 경험을 만드는
-        앱 개발자입니다.
-      </p>
+      <p>{profile.description}</p>
 
       <div>
-        <a href="#projects">프로젝트 보기</a>
-        <a href="#contact">연락하기</a>
+        {profile.email && (
+          <a href={`mailto:${profile.email}`}>
+            {profile.email}
+          </a>
+        )}
+
+        {profile.github_url && (
+          <a href={profile.github_url} target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+        )}
+
+        {profile.velog_url && (
+          <a href={profile.velog_url} target="_blank" rel="noreferrer">
+            Velog
+          </a>
+        )}
+
+        {profile.linkedin_url && (
+          <a href={profile.linkedin_url} target="_blank" rel="noreferrer">
+            LinkedIn
+          </a>
+        )}
       </div>
+
+      {profile.profile_image_url && (
+        <img
+          src={profile.profile_image_url}
+          alt="프로필 사진"
+        />
+      )}
     </section>
   );
 }

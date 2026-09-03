@@ -14,8 +14,8 @@ export default function Portfolio() {
       <KeywordSection />
       <CareerSection />
       <SkillsSection />
-      <ActivitiesSection />
       <ProjectsSection />
+      <ActivitiesSection />
       <BlogsSection />
       <ContactSection />
     </main>

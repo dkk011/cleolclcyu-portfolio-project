@@ -2,88 +2,72 @@ import type { Project } from '../../entities/project/model/types';
 
 interface ProjectCardProps {
   project: Project;
+  onClick: (project: Project) => void;
 }
 
-export default function ProjectCard({ project }: ProjectCardProps) {
+export default function ProjectCard({
+  project,
+  onClick,
+}: ProjectCardProps) {
   return (
-    <article>
-      <div>
-        {project.image ? (
-          <img
-            src={project.image}
-            alt={`${project.title} 프로젝트`}
-          />
-        ) : (
-          <div>
-            <span>project media</span>
-            <span>1200×800</span>
-          </div>
-        )}
-      </div>
+    <article
+      role="button"
+      tabIndex={0}
+      onClick={() => onClick(project)}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          onClick(project);
+        }
+      }}
+    >
+      {project.image_urls[0] && (
+        <img
+          src={project.image_urls[0]}
+          alt={`${project.title} 대표 이미지`}
+        />
+      )}
 
       <div>
-        <header>
-          <div>
-            <h3>{project.title}</h3>
-
-            {project.githubUrl && (
-              <a
-                href={project.githubUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                GitHub
-              </a>
-            )}
-
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Live
-              </a>
-            )}
-          </div>
-
-          <p>
-            {project.role} · {project.memberCount}인 ·{' '}
-            {project.period}
-          </p>
-        </header>
-
-        <p>{project.description}</p>
-
-        <ul>
-          {project.techStack.map((tech) => (
-            <li key={tech}>{tech}</li>
-          ))}
-        </ul>
-
-        <p>{project.detail}</p>
-
         <div>
-          {project.readmeUrl && (
+          <h3>{project.title}</h3>
+
+          {project.github_url && (
             <a
-              href={project.readmeUrl}
+              href={project.github_url}
               target="_blank"
               rel="noreferrer"
+              onClick={(event) => event.stopPropagation()}
+              aria-label={`${project.title} GitHub`}
             >
-              README
+              GitHub
             </a>
           )}
 
-          {project.retrospectiveUrl && (
+          {project.live_url && (
             <a
-              href={project.retrospectiveUrl}
+              href={project.live_url}
               target="_blank"
               rel="noreferrer"
+              onClick={(event) => event.stopPropagation()}
+              aria-label={`${project.title} Live`}
             >
-              회고록
+              Live
             </a>
           )}
         </div>
+
+        <p>
+          {project.role} · {project.member_count}명 ·{' '}
+          {project.period}
+        </p>
+
+        <div>
+          {project.tech_stack.map((tech) => (
+            <span key={tech}>{tech}</span>
+          ))}
+        </div>
+
+        <p>{project.description}</p>
       </div>
     </article>
   );

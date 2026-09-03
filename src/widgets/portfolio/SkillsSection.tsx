@@ -1,66 +1,72 @@
-interface SkillGroup {
-  category: string;
-  skills: string[];
-}
+import { useEffect, useState } from 'react';
 
-const skillGroups: SkillGroup[] = [
-  {
-    category: 'Frontend',
-    skills: [
-      'React',
-      'JavaScript',
-      'HTML',
-      'CSS',
-    ],
-  },
-  {
-    category: 'State & Data',
-    skills: [
-      'Redux Toolkit',
-      'React Query',
-    ],
-  },
-  {
-    category: 'Backend',
-    skills: [
-      'Node.js',
-      'REST API',
-      'MySQL',
-    ],
-  },
-  {
-    category: 'Cloud & BaaS',
-    skills: [
-      'Supabase',
-      'AWS',
-    ],
-  },
-  {
-    category: 'Tools',
-    skills: [
-      'Git',
-      'GitHub',
-      'Figma',
-    ],
-  },
+import { getSkills } from '../../entities/skill/api/getSkills';
+import type {
+  Skill,
+  SkillCategory,
+} from '../../entities/skill/model/types';
+
+const categories: SkillCategory[] = [
+  'Frontend',
+  'Backend',
+  'Data',
+  'Tools',
 ];
 
 export default function SkillsSection() {
+  const [skills, setSkills] = useState<Skill[]>([]);
+
+  useEffect(() => {
+    const fetchSkills = async () => {
+      try {
+        const data = await getSkills();
+        setSkills(data);
+      } catch (error) {
+        console.error('Skills Error:', error);
+      }
+    };
+
+    fetchSkills();
+  }, []);
+
   return (
-    <section id="skills">
-      <h2>SKILLS</h2>
+    <section>
+      <header>
+        <h2>SKILLS</h2>
+        <p>기술 스택</p>
+      </header>
 
-      {skillGroups.map((group) => (
-        <div key={group.category}>
-          <h3>{group.category}</h3>
+      {categories.map((category) => {
+        const categorySkills = skills.filter(
+          (skill) => skill.category === category,
+        );
 
-          <ul>
-            {group.skills.map((skill) => (
-              <li key={skill}>{skill}</li>
-            ))}
-          </ul>
-        </div>
-      ))}
+        if (categorySkills.length === 0) {
+          return null;
+        }
+
+        return (
+          <div key={category}>
+            <h3>{category}</h3>
+
+            <div>
+              {categorySkills.map((skill) => (
+                <article key={skill.id}>
+                  <div>
+                    <span aria-hidden="true">
+                      {skill.icon}
+                    </span>
+
+                    <h4>{skill.name}</h4>
+                  </div>
+
+                  <p>{skill.description}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        );
+      })}
     </section>
   );
 }

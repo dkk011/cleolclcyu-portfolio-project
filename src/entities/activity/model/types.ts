@@ -8,8 +8,14 @@ export type ActivityCategory =
 
 export interface Activity {
     id: number;
+
     category: ActivityCategory;
     title: string;
     description: string;
     date: string;
+
+    detail_title: string | null;
+    detail_content: string | null;
+    
+    sort_order: number;
 }

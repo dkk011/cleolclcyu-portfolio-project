@@ -2,27 +2,31 @@ import type { Activity } from '../../entities/activity/model/types';
 
 interface ActivityItemProps {
   activity: Activity;
+  isActive: boolean;
+  activityRef: (element: HTMLDivElement | null) => void;
 }
 
 export default function ActivityItem({
   activity,
+  isActive,
+  activityRef,
 }: ActivityItemProps) {
   return (
-    <article>
-      <span aria-hidden="true" />
-
+    <div
+      ref={activityRef}
+      data-activity-id={activity.id}
+      aria-current={isActive ? 'step' : undefined}
+    >
       <div>
-        <div>
-          <span>{activity.category}</span>
-          <h3>{activity.title}</h3>
-        </div>
-
-        <p>{activity.description}</p>
+        <span>{activity.category}</span>
+        <time dateTime={activity.date}>
+          {activity.date.slice(0, 7).replace('-', '.')}
+        </time>
       </div>
 
-      <time dateTime={activity.date}>
-        {activity.date.replace('-', '.')}
-      </time>
-    </article>
+      <h3>{activity.title}</h3>
+
+      <p>{activity.description}</p>
+    </div>
   );
 }
