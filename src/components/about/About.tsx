@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getProfile } from "../../api/profile/getProfile";
 import type { Profile } from "../../types/profile.types";
+import styles from "./about.module.css";
 
 export default function About() {
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -19,49 +20,78 @@ export default function About() {
   }, []);
 
   if (!profile) {
-    return <section id="about">프로필을 불러오는 중입니다.</section>;
+    return <section id="about" className={styles.about} />;
   }
 
   return (
-    <section id="about">
-      <span>{profile.role}</span>
+    <section id="about" className={styles.about}>
+      <div className={styles.container}>
+        <div className={styles.content}>
+          <span className={styles.role}>{profile.role}</span>
 
-      <h1>{profile.headline}</h1>
+          <h1 className={styles.title}>{profile.headline}</h1>
 
-      <p>{profile.description}</p>
+          <p className={styles.description}>{profile.description}</p>
 
-      <div>
-        {profile.email && (
-          <a href={`mailto:${profile.email}`}>
-            {profile.email}
-          </a>
-        )}
+          <div className={styles.links}>
+            {profile.email && (
+              <a
+                className={styles.link}
+                href={`mailto:${profile.email}`}
+              >
+                <span>Email</span>
+                <span>{profile.email}</span>
+              </a>
+            )}
 
-        {profile.github_url && (
-          <a href={profile.github_url} target="_blank" rel="noreferrer">
-            GitHub
-          </a>
-        )}
+            {profile.github_url && (
+              <a
+                className={styles.link}
+                href={profile.github_url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>GitHub</span>
+                <span>↗</span>
+              </a>
+            )}
 
-        {profile.velog_url && (
-          <a href={profile.velog_url} target="_blank" rel="noreferrer">
-            Velog
-          </a>
-        )}
+            {profile.velog_url && (
+              <a
+                className={styles.link}
+                href={profile.velog_url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>Velog</span>
+                <span>↗</span>
+              </a>
+            )}
 
-        {profile.linkedin_url && (
-          <a href={profile.linkedin_url} target="_blank" rel="noreferrer">
-            LinkedIn
-          </a>
+            {profile.linkedin_url && (
+              <a
+                className={styles.link}
+                href={profile.linkedin_url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>LinkedIn</span>
+                <span>↗</span>
+              </a>
+            )}
+          </div>
+        </div>
+
+        {profile.profile_image_url && (
+          <div className={styles.profile}>
+            <img
+              className={styles.profileImage}
+              src={profile.profile_image_url}
+              alt="프로필 사진"
+            />
+          </div>
         )}
       </div>
-
-      {profile.profile_image_url && (
-        <img
-          src={profile.profile_image_url}
-          alt="프로필 사진"
-        />
-      )}
     </section>
   );
 }

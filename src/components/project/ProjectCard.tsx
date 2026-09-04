@@ -1,73 +1,112 @@
+import type { KeyboardEvent, MouseEvent } from 'react';
 import type { Project } from '../../types/project.types';
+import styles from './project.module.css';
 
 interface ProjectCardProps {
   project: Project;
-  onClick: (project: Project) => void;
+  onClick: () => void;
 }
 
 export default function ProjectCard({
   project,
   onClick,
 }: ProjectCardProps) {
+  const thumbnail = project.image_urls?.[0] ?? null;
+
+  const handleKeyDown = (
+    event: KeyboardEvent<HTMLElement>,
+  ) => {
+    if (
+      event.key === 'Enter' ||
+      event.key === ' '
+    ) {
+      event.preventDefault();
+      onClick();
+    }
+  };
+
+  const handleLinkClick = (
+    event: MouseEvent<HTMLAnchorElement>,
+  ) => {
+    event.stopPropagation();
+  };
+
   return (
     <article
-      role="button"
+      className={styles.card}
+      onClick={onClick}
+      onKeyDown={handleKeyDown}
       tabIndex={0}
-      onClick={() => onClick(project)}
-      onKeyDown={(event) => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          onClick(project);
-        }
-      }}
+      role="button"
     >
-      {project.image_urls[0] && (
-        <img
-          src={project.image_urls[0]}
-          alt={`${project.title} 대표 이미지`}
-        />
-      )}
+      <div className={styles.thumbnail}>
+        {thumbnail ? (
+          <img
+            src={thumbnail}
+            alt={`${project.title} 프로젝트 이미지`}
+          />
+        ) : (
+          <div className={styles.thumbnailEmpty} />
+        )}
+      </div>
 
-      <div>
-        <div>
-          <h3>{project.title}</h3>
+      <div className={styles.cardContent}>
+        <div className={styles.cardHeader}>
+          <h3 className={styles.cardTitle}>
+            {project.title}
+          </h3>
 
-          {project.github_url && (
-            <a
-              href={project.github_url}
-              target="_blank"
-              rel="noreferrer"
-              onClick={(event) => event.stopPropagation()}
-              aria-label={`${project.title} GitHub`}
-            >
-              GitHub
-            </a>
-          )}
+          <div className={styles.cardLinks}>
+            {project.live_url && (
+              <a
+                href={project.live_url}
+                target="_blank"
+                rel="noreferrer"
+                className={styles.iconLink}
+                aria-label="프로젝트 바로가기"
+                onClick={handleLinkClick}
+              >
+                ↗
+              </a>
+            )}
 
-          {project.live_url && (
-            <a
-              href={project.live_url}
-              target="_blank"
-              rel="noreferrer"
-              onClick={(event) => event.stopPropagation()}
-              aria-label={`${project.title} Live`}
-            >
-              Live
-            </a>
-          )}
+            {project.github_url && (
+              <a
+                href={project.github_url}
+                target="_blank"
+                rel="noreferrer"
+                className={styles.iconLink}
+                aria-label="GitHub 바로가기"
+                onClick={handleLinkClick}
+              >
+                ●
+              </a>
+            )}
+          </div>
         </div>
 
-        <p>
-          {project.role} · {project.member_count}명 ·{' '}
+        <p className={styles.meta}>
+          {project.role}
+          {' · '}
+          {project.member_count}인
+          {' · '}
           {project.period}
         </p>
 
-        <div>
+        <div className={styles.techStack}>
           {project.tech_stack.map((tech) => (
-            <span key={tech}>{tech}</span>
+            <span
+              key={tech}
+              className={styles.tech}
+            >
+              {tech}
+            </span>
           ))}
         </div>
 
-        <p>{project.description}</p>
+        <p className={styles.cardDescription}>
+          {project.description}
+        </p>
       </div>
     </article>
   );

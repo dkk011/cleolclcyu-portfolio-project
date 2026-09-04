@@ -1,184 +1,229 @@
-import { useEffect, useRef, useState } from 'react';
-
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { getActivities } from '../../api/activity/getActivities';
-import type {
-  Activity,
-  ActivityCategory,
-} from '../../types/activity.types';
-
-import ActivityDetail from './ActivityDetail';
+import type { Activity as ActivityType } from '../../types/activity.types';
 import ActivityItem from './ActivityItem';
+import ActivityDetail from './ActivityDetail';
+import styles from './activity.module.css';
 
-const categories: Array<
-  '전체' | ActivityCategory
-> = [
-    '전체',
-    '대외활동',
-    '해커톤',
-    '공모전',
-    '대회',
-    '스터디',
-    '밋업',
-  ];
+const categories = [
+  '전체',
+  '대외활동',
+  '해커톤',
+  '공모전',
+  '대회',
+  '스터디',
+  '밋업',
+] as const;
 
 export default function Activity() {
-  const [activities, setActivities] = useState<Activity[]>([]);
-  const [selectedCategory, setSelectedCategory] =
-    useState<'전체' | ActivityCategory>('전체');
+  const [activities, setActivities] = useState<ActivityType[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState<string>('전체');
+  const [activeActivityId, setActiveActivityId] = useState<number | null>(null);
+  const [detailOffset, setDetailOffset] = useState(0);
 
-  const [activeActivity, setActiveActivity] =
-    useState<Activity | null>(null);
-
-  const activityElements =
-    useRef<Map<number, HTMLDivElement>>(new Map());
+  const contentRef = useRef<HTMLDivElement | null>(null);
+  const activityRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  const lastActiveId = useRef<number | null>(null);
 
   useEffect(() => {
-    const fetchActivities = async () => {
-      try {
-        const data = await getActivities();
+    let isMounted = true;
+
+    getActivities()
+      .then((data) => {
+        if (!isMounted) return;
 
         setActivities(data);
 
         if (data.length > 0) {
-          setActiveActivity(data[0]);
+          setActiveActivityId(data[0].id);
+          lastActiveId.current = data[0].id;
         }
-      } catch (error) {
-        console.error('Activities Error:', error);
-      }
-    };
+      })
+      .catch((error) => {
+        console.error('Activity 불러오기 실패:', error);
+      });
 
-    fetchActivities();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   const filteredActivities =
     selectedCategory === '전체'
       ? activities
       : activities.filter(
-        (activity) =>
-          activity.category === selectedCategory,
-      );
+          (activity) => activity.category === selectedCategory,
+        );
 
-  useEffect(() => {
-    const elements = Array.from(
-      activityElements.current.values(),
+  const updateActiveActivity = useCallback(() => {
+    if (filteredActivities.length === 0) return;
+
+    const targetY = window.innerHeight * 0.42;
+    let closestActivity = filteredActivities[0];
+    let closestDistance = Infinity;
+
+    filteredActivities.forEach((activity) => {
+      const element = activityRefs.current[activity.id];
+      if (!element) return;
+
+      const rect = element.getBoundingClientRect();
+      const center = rect.top + rect.height / 2;
+      const distance = Math.abs(center - targetY);
+
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestActivity = activity;
+      }
+    });
+
+    const currentIndex = filteredActivities.findIndex(
+      (activity) => activity.id === lastActiveId.current,
     );
 
-    if (elements.length === 0) {
+    const nextIndex = filteredActivities.findIndex(
+      (activity) => activity.id === closestActivity.id,
+    );
+
+    if (currentIndex === -1) {
+      lastActiveId.current = closestActivity.id;
+      setActiveActivityId(closestActivity.id);
       return;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleEntries = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort(
-            (a, b) =>
-              Math.abs(
-                a.boundingClientRect.top -
-                window.innerHeight * 0.4,
-              ) -
-              Math.abs(
-                b.boundingClientRect.top -
-                window.innerHeight * 0.4,
-              ),
-          );
+    if (currentIndex === nextIndex) return;
 
-        const target = visibleEntries[0]?.target;
+    const currentElement =
+      activityRefs.current[filteredActivities[currentIndex].id];
 
-        if (!target) {
-          return;
-        }
+    if (!currentElement) return;
 
-        const activityId = Number(
-          (target as HTMLElement).dataset.activityId,
-        );
+    const currentRect = currentElement.getBoundingClientRect();
+    const currentCenter = currentRect.top + currentRect.height / 2;
+    const distanceFromTarget = Math.abs(currentCenter - targetY);
+    const switchThreshold = Math.min(90, window.innerHeight * 0.08);
 
-        const activity = filteredActivities.find(
-          (item) => item.id === activityId,
-        );
+    if (distanceFromTarget < switchThreshold) return;
 
-        if (activity) {
-          setActiveActivity(activity);
-        }
-      },
-      {
-        root: null,
-        rootMargin: '-25% 0px -55% 0px',
-        threshold: [0, 0.25, 0.5, 0.75, 1],
-      },
-    );
+    lastActiveId.current = closestActivity.id;
+    setActiveActivityId(closestActivity.id);
+  }, [filteredActivities]);
 
-    elements.forEach((element) => {
-      observer.observe(element);
+  const updateDetailPosition = useCallback(() => {
+    if (!activeActivityId) return;
+
+    const activeElement = activityRefs.current[activeActivityId];
+    const containerElement = contentRef.current;
+
+    if (!activeElement || !containerElement) return;
+
+    const activeRect = activeElement.getBoundingClientRect();
+    const containerRect = containerElement.getBoundingClientRect();
+
+    const offset = activeRect.top - containerRect.top;
+    setDetailOffset(offset);
+  }, [activeActivityId]);
+
+  useEffect(() => {
+    if (filteredActivities.length === 0) {
+      setActiveActivityId(null);
+      lastActiveId.current = null;
+      return;
+    }
+
+    const firstActivity = filteredActivities[0];
+    setActiveActivityId(firstActivity.id);
+    lastActiveId.current = firstActivity.id;
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      updateActiveActivity();
+    };
+
+    const handleResize = () => {
+      updateActiveActivity();
+      updateDetailPosition();
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleResize, { passive: true });
+
+    requestAnimationFrame(() => {
+      updateActiveActivity();
+      updateDetailPosition();
     });
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
     };
-  }, [filteredActivities]);
+  }, [updateActiveActivity, updateDetailPosition]);
 
-  const setActivityRef =
-    (id: number) =>
-      (element: HTMLDivElement | null) => {
-        if (element) {
-          activityElements.current.set(id, element);
-        } else {
-          activityElements.current.delete(id);
-        }
-      };
+  useEffect(() => {
+    requestAnimationFrame(updateDetailPosition);
+  }, [activeActivityId, updateDetailPosition]);
 
-  const handleCategoryChange = (
-    category: '전체' | ActivityCategory,
-  ) => {
+  const activeActivity =
+    filteredActivities.find(
+      (activity) => activity.id === activeActivityId,
+    ) ??
+    filteredActivities[0] ??
+    null;
+
+  const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
-
-    const nextActivities =
-      category === '전체'
-        ? activities
-        : activities.filter(
-          (activity) => activity.category === category,
-        );
-
-    setActiveActivity(nextActivities[0] ?? null);
   };
 
   return (
-    <section id="activity">
-      <header>
-        <h2>ACTIVITY</h2>
-        <p>활동</p>
-      </header>
+    <section id="activity" className={styles.activity}>
+      <div className={styles.container}>
+        <header className={styles.heading}>
+          <p className={styles.eyebrow}>ACTIVITIES</p>
+          <h2 className={styles.title}>다양한 경험</h2>
+        </header>
 
-      <nav aria-label="활동 카테고리">
-        {categories.map((category) => (
-          <button
-            key={category}
-            type="button"
-            aria-pressed={selectedCategory === category}
-            onClick={() =>
-              handleCategoryChange(category)
-            }
-          >
-            {category}
-          </button>
-        ))}
-      </nav>
-
-      <div>
-        <div>
-          {filteredActivities.map((activity) => (
-            <ActivityItem
-              key={activity.id}
-              activity={activity}
-              isActive={
-                activeActivity?.id === activity.id
-              }
-              activityRef={setActivityRef(activity.id)}
-            />
+        <div className={styles.categoryList}>
+          {categories.map((category) => (
+            <button
+              key={category}
+              type="button"
+              className={`${styles.categoryButton} ${
+                selectedCategory === category
+                  ? styles.categoryButtonActive
+                  : ''
+              }`}
+              onClick={() => handleCategoryChange(category)}
+            >
+              {category}
+            </button>
           ))}
         </div>
 
-        <ActivityDetail activity={activeActivity} />
+        <div ref={contentRef} className={styles.content}>
+          <div className={styles.timeline}>
+            <div className={styles.timelineLine} aria-hidden="true" />
+
+            {filteredActivities.map((activity) => (
+              <ActivityItem
+                key={activity.id}
+                activity={activity}
+                isActive={activeActivityId === activity.id}
+                activityRef={(element) => {
+                  activityRefs.current[activity.id] = element;
+                }}
+              />
+            ))}
+          </div>
+
+          <div
+            className={styles.detailArea}
+            style={{
+              transform: `translateY(${detailOffset}px)`,
+            }}
+          >
+            {activeActivity && <ActivityDetail activity={activeActivity} />}
+          </div>
+        </div>
       </div>
     </section>
   );

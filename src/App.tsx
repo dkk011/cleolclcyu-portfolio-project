@@ -6,23 +6,25 @@ import Project from './components/project/Project'
 import Activity from './components/activity/Activity'
 import Blog from './components/blog/Blog'
 import Closing from './components/closing/Closing'
-import './styles/App.module.css'
 import NavBar from './components/navBar/NavBar'
+import styles from './styles/App.module.css'
 
 function App() {
   return (
-    <>
+    <div className={styles.app}>
       <NavBar />
 
-      <About />
-      <WordCloud />
-      <Career />
-      <Skill />
-      <Project />
-      <Activity />
-      <Blog />
-      <Closing />
-    </>
+      <main className={styles.main}>
+        <About />
+        <WordCloud />
+        <Career />
+        <Skill />
+        <Project />
+        <Activity />
+        <Blog />
+        <Closing />
+      </main>
+    </div>
   );
 }
 

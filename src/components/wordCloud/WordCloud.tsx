@@ -3,6 +3,7 @@ import type { Keyword } from "../../types/keyword.types";
 import KeywordSelect from "./KeywordSelect";
 import Chatbot from "./Chatbot";
 import { getKeywords } from "../../api/keyword/getKeywords";
+import styles from "./wordcloud.module.css";
 
 export default function WordCloud() {
   const [keywords, setKeywords] = useState<Keyword[]>([]);
@@ -26,19 +27,32 @@ export default function WordCloud() {
   };
 
   return (
-    <section id="wordcloud">
-      <p>WORD CLOUD</p>
-      <h2>저는 이런 사람입니다</h2>
+    <section id="wordcloud" className={styles.wordcloud}>
+      <div className={styles.container}>
+        <div className={styles.heading}>
+          <p className={styles.eyebrow}>WORD CLOUD</p>
+          <h2 className={styles.title}>
+            저는 이런 사람입니다
+          </h2>
+          <p className={styles.description}>
+            키워드를 선택하면 저에 대해 조금 더 자세히 알아볼 수 있습니다.
+          </p>
+        </div>
 
-      <KeywordSelect
-        keywords={keywords}
-        selectedKeyword={selectedKeyword?.keyword ?? null}
-        onSelectKeyword={handleSelectKeyword}
-      />
+        <div className={styles.content}>
+          <div className={styles.keywordArea}>
+            <KeywordSelect
+              keywords={keywords}
+              selectedKeyword={selectedKeyword?.keyword ?? null}
+              onSelectKeyword={handleSelectKeyword}
+            />
+          </div>
 
-      <Chatbot
-        selectedKeyword={selectedKeyword}
-      />
+          <div className={styles.chatArea}>
+            <Chatbot selectedKeyword={selectedKeyword} />
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

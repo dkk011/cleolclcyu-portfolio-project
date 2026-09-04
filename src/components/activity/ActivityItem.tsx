@@ -1,9 +1,12 @@
 import type { Activity } from '../../types/activity.types';
+import styles from './activity.module.css';
 
 interface ActivityItemProps {
   activity: Activity;
   isActive: boolean;
-  activityRef: (element: HTMLDivElement | null) => void;
+  activityRef: (
+    element: HTMLDivElement | null,
+  ) => void;
 }
 
 export default function ActivityItem({
@@ -11,22 +14,45 @@ export default function ActivityItem({
   isActive,
   activityRef,
 }: ActivityItemProps) {
+  const formattedDate = activity.date
+    .slice(0, 7)
+    .replace('-', '.');
+
   return (
-    <div
+    <article
       ref={activityRef}
       data-activity-id={activity.id}
-      aria-current={isActive ? 'step' : undefined}
+      className={`${styles.item} ${
+        isActive
+          ? styles.itemActive
+          : ''
+      }`}
     >
-      <div>
-        <span>{activity.category}</span>
-        <time dateTime={activity.date}>
-          {activity.date.slice(0, 7).replace('-', '.')}
-        </time>
+      <time
+        className={styles.date}
+        dateTime={activity.date}
+      >
+        {formattedDate}
+      </time>
+
+      <div
+        className={styles.dot}
+        aria-hidden="true"
+      />
+
+      <div className={styles.itemContent}>
+        <span className={styles.itemCategory}>
+          {activity.category}
+        </span>
+
+        <h3 className={styles.itemTitle}>
+          {activity.title}
+        </h3>
+
+        <p className={styles.itemDescription}>
+          {activity.description}
+        </p>
       </div>
-
-      <h3>{activity.title}</h3>
-
-      <p>{activity.description}</p>
-    </div>
+    </article>
   );
 }
