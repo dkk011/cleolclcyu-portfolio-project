@@ -23,7 +23,6 @@ import {
   SiMqtt,
   SiMysql,
   SiNodedotjs,
-  SiOpenapiinitiative,
   SiPython,
   SiCplusplus,
   SiQt,

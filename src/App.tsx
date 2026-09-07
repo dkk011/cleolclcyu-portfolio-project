@@ -12,7 +12,7 @@ import NavBar from './components/navBar/NavBar'
 import styles from './styles/App.module.css'
 
 function App() {
-  const [showTopBtn, setShowTopBtn] = useState(false);
+  const [_, setShowTopBtn] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
