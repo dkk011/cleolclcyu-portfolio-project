@@ -7,15 +7,17 @@
   width: 100%;
   height: 72px;
 
-  background: rgba(255, 255, 255, 0.9);
-  border-bottom: 1px solid #eeeeee;
-  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 
 .inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 40px;
 
   width: min(1440px, calc(100% - 96px));
   height: 100%;
@@ -23,29 +25,138 @@
 }
 
 .logo {
-  font-size: 18px;
-  font-weight: 600;
+  flex-shrink: 0;
+
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: #111111;
+
+  transition: color 0.2s ease;
+}
+
+.logo:hover {
+  color: #3182f6;
 }
 
 .menu {
   display: flex;
   align-items: center;
-  gap: 28px;
+  justify-content: flex-end;
+  gap: 26px;
+
+  min-width: 0;
 }
 
 .menuItem {
-  font-size: 13px;
-  font-weight: 600;
-  color: #777777;
+  position: relative;
+
+  flex-shrink: 0;
+
+  padding: 8px 0;
+
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: #8a919b;
+
   transition: color 0.2s ease;
+}
+
+.menuItem::after {
+  content: '';
+
+  position: absolute;
+  right: 0;
+  bottom: 1px;
+  left: 0;
+
+  height: 1px;
+
+  background: #3182f6;
+
+  transform: scaleX(0);
+  transform-origin: center;
+
+  transition: transform 0.2s ease;
 }
 
 .menuItem:hover {
   color: #111111;
 }
 
+.menuItem:hover::after {
+  transform: scaleX(1);
+}
+
+@media (max-width: 960px) {
+  .inner {
+    width: calc(100% - 64px);
+    gap: 24px;
+  }
+
+  .logo {
+    font-size: 16px;
+  }
+
+  .menu {
+    gap: 18px;
+  }
+
+  .menuItem {
+    font-size: 10px;
+  }
+}
+
 @media (max-width: 768px) {
+  .navbar {
+    height: 60px;
+  }
+
   .inner {
     width: calc(100% - 40px);
+    gap: 16px;
+  }
+
+  .logo {
+    font-size: 14px;
+  }
+
+  .menu {
+    flex: 1;
+    gap: 14px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  .menuItem {
+    padding: 7px 0;
+
+    font-size: 9px;
+    letter-spacing: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .inner {
+    width: calc(100% - 28px);
+  }
+
+  .logo {
+    font-size: 13px;
+  }
+
+  .menu {
+    gap: 12px;
+  }
+
+  .menuItem {
+    font-size: 8px;
   }
 }

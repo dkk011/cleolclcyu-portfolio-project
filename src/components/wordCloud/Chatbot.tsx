@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
-import type { KeyboardEvent } from "react";
-import type { Keyword } from "../../types/keyword.types";
-import { supabase } from "../../api/supabase";
-import { FunctionsHttpError } from "@supabase/supabase-js";
-import styles from "./wordcloud.module.css";
+import { useEffect, useRef, useState } from 'react';
+import type { KeyboardEvent } from 'react';
+import { FunctionsHttpError } from '@supabase/supabase-js';
+import { supabase } from '../../api/supabase';
+import type { Keyword } from '../../types/keyword.types';
+import styles from './wordcloud.module.css';
+import { ArrowUpRight, CircleHelp, Sparkles } from 'lucide-react';
 
 interface ChatbotProps {
   selectedKeyword: Keyword | null;
@@ -11,80 +12,113 @@ interface ChatbotProps {
 
 interface ChatMessage {
   id: number;
-  role: "user" | "assistant";
+  role: 'user' | 'assistant';
   content: string;
 }
 
 export default function Chatbot({
   selectedKeyword,
 }: ChatbotProps) {
-  const [question, setQuestion] = useState("");
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [question, setQuestion] = useState('');
+  const [messages, setMessages] =
+    useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
   const requestIdRef = useRef(0);
 
   useEffect(() => {
+    // 키워드 변경되면 이전 대화 초기화
     setMessages([]);
-    setQuestion("");
+    setQuestion('');
     setIsLoading(false);
+
+    // 이전 요청이 늦게 도착해도 현재 키워드에
+    // 잘못된 답변이 추가되지 않도록 요청 번호 증가
     requestIdRef.current += 1;
   }, [selectedKeyword?.keyword]);
 
-  const handleSubmit = async () => {
+  // 질문을 받아 실제 AI 요청을 처리하는 함수
+  // 입력창 질문과 추천 질문 모두 이 함수를 재사용한다
+  const handleSubmit = async (
+    submittedQuestion: string,
+  ) => {
     if (!selectedKeyword) {
       return;
     }
 
-    const trimmedQuestion = question.trim();
+    const trimmedQuestion =
+      submittedQuestion.trim();
 
     if (!trimmedQuestion || isLoading) {
       return;
     }
 
-    const currentRequestId = requestIdRef.current;
-    const currentKeyword = selectedKeyword.keyword;
+    const currentRequestId =
+      requestIdRef.current;
 
+    const currentKeyword =
+      selectedKeyword.keyword;
+
+    // 사용자가 입력한 질문을 대화에 추가
     const userMessage: ChatMessage = {
       id: Date.now(),
-      role: "user",
+      role: 'user',
       content: trimmedQuestion,
     };
 
-    setMessages((prev) => [...prev, userMessage]);
-    setQuestion("");
+    setMessages((prev) => [
+      ...prev,
+      userMessage,
+    ]);
+
+    // 질문 입력창 초기화
+    setQuestion('');
+
     setIsLoading(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke(
-        "chat",
-        {
-          body: {
-            keyword: currentKeyword,
-            question: trimmedQuestion,
+      // Supabase Edge Function으로 Groq 호출
+      const { data, error } =
+        await supabase.functions.invoke(
+          'chat',
+          {
+            body: {
+              keyword: currentKeyword,
+              question: trimmedQuestion,
+            },
           },
-        },
-      );
+        );
 
-      if (currentRequestId !== requestIdRef.current) {
+      // 키워드 변경된 다음 이전 요청이 도착하면 현재 대화에는 결과를 반영하지 않는다
+      if (
+        currentRequestId !==
+        requestIdRef.current
+      ) {
         return;
       }
 
       if (error) {
-        console.error("Edge Function Error:", error);
+        console.error(
+          'Edge Function Error:',
+          error,
+        );
 
-        if (error instanceof FunctionsHttpError) {
-          const errorBody = await error.context
-            .json()
-            .catch(() => null);
+        if (
+          error instanceof FunctionsHttpError
+        ) {
+          const errorBody =
+            await error.context
+              .json()
+              .catch(() => null);
 
           console.error(
-            "Edge Function Response:",
+            'Edge Function Response:',
             errorBody,
           );
 
           throw new Error(
             errorBody?.error ??
-            "Edge Function에서 오류가 발생했습니다.",
+              'Edge Function에서 오류가 발생했습니다.',
           );
         }
 
@@ -92,12 +126,15 @@ export default function Chatbot({
       }
 
       if (!data?.answer) {
-        throw new Error("AI 답변이 없습니다.");
+        throw new Error(
+          'AI 답변이 없습니다.',
+        );
       }
 
+      // AI 답변을 대화에 추가
       const assistantMessage: ChatMessage = {
         id: Date.now() + 1,
-        role: "assistant",
+        role: 'assistant',
         content: data.answer,
       };
 
@@ -106,19 +143,25 @@ export default function Chatbot({
         assistantMessage,
       ]);
     } catch (error) {
-      if (currentRequestId !== requestIdRef.current) {
+      if (
+        currentRequestId !==
+        requestIdRef.current
+      ) {
         return;
       }
 
-      console.error("Chatbot Error:", error);
+      console.error(
+        'Chatbot Error:',
+        error,
+      );
 
       const errorMessage: ChatMessage = {
         id: Date.now() + 1,
-        role: "assistant",
+        role: 'assistant',
         content:
           error instanceof Error
             ? error.message
-            : "답변을 가져오는 중 오류가 발생했습니다.",
+            : '답변을 가져오는 중 오류가 발생했습니다.',
       };
 
       setMessages((prev) => [
@@ -126,21 +169,39 @@ export default function Chatbot({
         errorMessage,
       ]);
     } finally {
-      if (currentRequestId === requestIdRef.current) {
+      if (
+        currentRequestId ===
+        requestIdRef.current
+      ) {
         setIsLoading(false);
       }
     }
+  };
+
+  // 입력창에서 질문을 전송할 때 호출
+  const handleInputSubmit = () => {
+    handleSubmit(question);
+  };
+
+  // 추천 질문을 클릭했을 때 호출
+  const handleSuggestedQuestion = () => {
+    if (!selectedKeyword) {
+      return;
+    }
+
+    handleSubmit(selectedKeyword.question);
   };
 
   const handleKeyDown = (
     event: KeyboardEvent<HTMLInputElement>,
   ) => {
     if (
-      event.key === "Enter" &&
+      event.key === 'Enter' &&
       !event.nativeEvent.isComposing
     ) {
       event.preventDefault();
-      handleSubmit();
+
+      handleInputSubmit();
     }
   };
 
@@ -158,7 +219,9 @@ export default function Chatbot({
         </div>
 
         {selectedKeyword && (
-          <div className={styles.selectedKeyword}>
+          <div
+            className={styles.selectedKeyword}
+          >
             <span>KEYWORD</span>
 
             <strong>
@@ -170,9 +233,18 @@ export default function Chatbot({
 
       <div className={styles.chatBody}>
         {!selectedKeyword ? (
+          // 아직 키워드를 선택하지 않은 상태
           <div className={styles.chatEmpty}>
-            <div className={styles.chatEmptyIcon}>
-              ?
+            <div
+              className={
+                styles.chatEmptyIcon
+              }
+            >
+              <CircleHelp
+                size={20}
+                strokeWidth={1.8}
+                aria-hidden="true"
+              />
             </div>
 
             <p>
@@ -182,52 +254,111 @@ export default function Chatbot({
             </p>
           </div>
         ) : messages.length === 0 ? (
+          // 키워드는 선택했지만 아직 대화가 없는 상태
+          <div className={styles.chatStart}>
+            <div className={styles.chatEmpty}>
+              <div
+                className={
+                  styles.chatEmptyIcon
+                }
+              >
+                <Sparkles
+                  size={20}
+                  strokeWidth={1.8}
+                  aria-hidden="true"
+                />
+              </div>
 
-          <div className={styles.chatEmpty}>
-            <div className={styles.chatEmptyIcon}>
-              ✦
+              <p>
+                <strong>
+                  {selectedKeyword.keyword}
+                </strong>
+                에 대해
+                <br />
+                궁금한 점을 질문해보세요.
+              </p>
             </div>
 
-            <p>
-              <strong>
-                {selectedKeyword.keyword}
-              </strong>
-              에 대해
-              <br />
-              궁금한 점을 질문해보세요.
-            </p>
+            {/* 추천 질문 */}
+            <div
+              className={
+                styles.suggestedQuestionArea
+              }
+            >
+              <span
+                className={
+                  styles.suggestedQuestionLabel
+                }
+              >
+                추천 질문
+              </span>
+
+              <button
+                type="button"
+                className={
+                  styles.suggestedQuestion
+                }
+                onClick={
+                  handleSuggestedQuestion
+                }
+                disabled={isLoading}
+              >
+                <span>
+                  {selectedKeyword.question}
+                </span>
+
+                <ArrowUpRight
+                  size={15}
+                  strokeWidth={1.8}
+                  aria-hidden="true"
+                />
+              </button>
+            </div>
           </div>
         ) : (
-
+          // 질문과 답변이 존재하는 상태
           <div className={styles.messages}>
             {messages.map((message) => (
               <div
                 key={message.id}
                 className={
-                  message.role === "user"
+                  message.role === 'user'
                     ? styles.messageUser
                     : styles.messageAssistant
                 }
               >
-                <div className={styles.messageLabel}>
-                  {message.role === "user"
-                    ? "YOU"
-                    : "AI"}
+                <div
+                  className={
+                    styles.messageLabel
+                  }
+                >
+                  {message.role === 'user'
+                    ? 'YOU'
+                    : 'AI'}
                 </div>
 
-                <div className={styles.messageBubble}>
+                <div
+                  className={
+                    styles.messageBubble
+                  }
+                >
                   {message.content}
                 </div>
               </div>
             ))}
 
+            {/* AI 응답 대기 중 */}
             {isLoading && (
               <div
                 className={
                   styles.messageAssistant
                 }
               >
-                <div className={styles.messageLabel}>
+                <div
+                  className={
+                    styles.messageLabel
+                  }
+                >
                   AI
                 </div>
 
@@ -255,7 +386,7 @@ export default function Chatbot({
           placeholder={
             selectedKeyword
               ? `${selectedKeyword.keyword}에 대해 질문해주세요.`
-              : "키워드를 먼저 선택해주세요."
+              : '키워드를 먼저 선택해주세요.'
           }
           disabled={
             !selectedKeyword || isLoading
@@ -264,7 +395,7 @@ export default function Chatbot({
 
         <button
           type="button"
-          onClick={handleSubmit}
+          onClick={handleInputSubmit}
           disabled={
             !selectedKeyword ||
             !question.trim() ||
@@ -272,7 +403,15 @@ export default function Chatbot({
           }
           aria-label="질문하기"
         >
-          {isLoading ? "..." : "↗"}
+          {isLoading ? (
+            '...'
+          ) : (
+            <ArrowUpRight
+              size={18}
+              strokeWidth={1.8}
+              aria-hidden="true"
+            />
+          )}
         </button>
       </div>
     </div>

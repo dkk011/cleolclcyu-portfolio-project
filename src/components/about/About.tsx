@@ -20,11 +20,11 @@ export default function About() {
   }, []);
 
   if (!profile) {
-    return <section id="about" className={styles.about} />;
+    return <section id="aboutme" className={styles.about} />;
   }
 
   return (
-    <section id="about" className={styles.about}>
+    <section id="aboutme" className={styles.about}>
       <div className={styles.container}>
         <div className={styles.content}>
           <span className={styles.role}>{profile.role}</span>

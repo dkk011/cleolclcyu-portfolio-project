@@ -20,11 +20,11 @@
 }
 
 .heading {
-  margin-bottom: 32px;
+  margin-bottom: 56px;
 }
 
 .eyebrow {
-  margin: 0 0 14px;
+  margin: 0 0 16px;
   font-size: 42px;
   font-weight: 800;
   line-height: 1;
@@ -49,9 +49,9 @@
 .categoryTrack {
   display: flex;
   align-items: flex-start;
-  gap: 100px;
+  gap: 112px;
   width: max-content;
-  padding-right: 24px;
+  padding-right: 220px;
   will-change: transform;
 }
 
@@ -61,44 +61,67 @@
 }
 
 .categoryTitle {
-  margin: 0 0 16px;
-  font-size: 13px;
+  margin: 0 0 18px;
+  font-size: 12px;
   font-weight: 800;
   line-height: 1.4;
-  letter-spacing: -0.02em;
-  color: #111111;
+  letter-spacing: 0.04em;
+  color: #a1a8b1;
+  transition: color 0.25s ease;
+}
+
+.categoryActive .categoryTitle {
+  color: #3182f6;
 }
 
 .skillList {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 20px;
 }
 
 .skillItem {
+  position: relative;
   width: 100%;
-  min-height: 130px;
-  padding: 20px 18px;
-  border: 1px solid #edf0f3;
-  border-radius: 18px;
+  min-height: 132px;
+  padding: 22px 22px 20px;
+  border: 1px solid #e9edf2;
+  border-radius: 20px;
   background: #ffffff;
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 14px rgba(17, 17, 17, 0.035);
   transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.skillItem::before {
+  content: '';
+  position: absolute;
+  top: 22px;
+  bottom: 22px;
+  left: 0;
+  width: 2px;
+  border-radius: 999px;
+  background: #3182f6;
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 
 .skillItem:hover {
-  border-color: #d8e7ff;
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
+  border-color: #dce8f9;
+  box-shadow: 0 10px 24px rgba(17, 17, 17, 0.06);
+  transform: translateY(-3px);
+}
+
+.skillItem:hover::before {
+  opacity: 1;
 }
 
 .skillHeader {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .skillIcon {
@@ -106,72 +129,106 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 28px;
-  height: 28px;
-  font-size: 20px;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: #f4f7fa;
   line-height: 1;
 }
 
 .skillName {
   margin: 0;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 800;
   line-height: 1.4;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
   color: #20242a;
 }
 
 .description {
   max-width: 500px;
-  margin: 14px 0 0;
+  margin: 15px 0 0;
   font-size: 12px;
-  font-weight: 500;
-  line-height: 1.5;
+  font-weight: 400;
+  line-height: 1.7;
   letter-spacing: -0.025em;
   word-break: keep-all;
-  color: #59636f;
-}
-
-.categoryActive .categoryTitle {
-  color: #3182f6;
+  color: #69727d;
 }
 
 .guide {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 24px;
+  margin-top: 30px;
 }
 
 .guideText {
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   color: #a5abb3;
 }
 
 .guideArrow {
-  font-size: 16px;
+  font-size: 17px;
+  line-height: 1;
   color: #3182f6;
+  animation: guideArrow 1.5s ease-in-out infinite;
+}
+
+@keyframes guideArrow {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(5px);
+  }
+}
+
+@media (max-width: 1200px) {
+  .categoryTrack {
+    gap: 90px;
+    padding-right: 180px;
+  }
+
+  .category {
+    flex-basis: 520px;
+    min-width: 520px;
+  }
 }
 
 @media (max-width: 960px) {
-  .skill {
-    height: auto;
+  .container {
+    width: calc(100% - 64px);
   }
 
-  .container {
-    width: calc(100% - 48px);
+  .heading {
+    margin-bottom: 48px;
+  }
+
+  .eyebrow {
+    font-size: 38px;
+  }
+
+  .title {
+    font-size: 30px;
   }
 
   .categoryTrack {
-    gap: 70px;
-    padding-right: 20px;
+    gap: 72px;
+    padding-right: 140px;
   }
 
   .category {
     flex-basis: 500px;
     min-width: 500px;
+  }
+
+  .skillItem {
+    min-height: 128px;
   }
 }
 
@@ -190,21 +247,21 @@
   }
 
   .heading {
-    margin-bottom: 28px;
+    margin-bottom: 34px;
   }
 
   .eyebrow {
-    margin-bottom: 10px;
-    font-size: 32px;
+    margin-bottom: 12px;
+    font-size: 30px;
   }
 
   .title {
-    font-size: 28px;
+    font-size: 24px;
   }
 
   .categoryTrack {
     gap: 48px;
-    padding-right: 16px;
+    padding-right: 40px;
   }
 
   .category {
@@ -214,23 +271,99 @@
 
   .categoryTitle {
     margin-bottom: 14px;
-    font-size: 12px;
+    font-size: 11px;
   }
 
   .skillList {
-    gap: 20px;
+    gap: 16px;
   }
 
   .skillItem {
-    min-height: 115px;
-    padding: 17px 15px;
-    border-radius: 16px;
+    min-height: 116px;
+    padding: 18px 16px;
+    border-radius: 17px;
+  }
+
+  .skillItem::before {
+    top: 18px;
+    bottom: 18px;
   }
 
   .skillIcon {
-    width: 26px;
-    height: 26px;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
     font-size: 18px;
+  }
+
+  .skillHeader {
+    gap: 10px;
+  }
+
+  .skillName {
+    font-size: 14px;
+  }
+
+  .description {
+    margin-top: 12px;
+    font-size: 11px;
+    line-height: 1.65;
+  }
+
+  .guide {
+    margin-top: 24px;
+  }
+
+  .guideText {
+    font-size: 9px;
+  }
+
+  .guideArrow {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .heading {
+    margin-bottom: 30px;
+  }
+
+  .eyebrow {
+    font-size: 28px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
+
+  .categoryTrack {
+    gap: 36px;
+    padding-right: 32px;
+  }
+
+  .category {
+    flex-basis: calc(100vw - 40px);
+    min-width: calc(100vw - 40px);
+  }
+
+  .skillList {
+    gap: 14px;
+  }
+
+  .skillItem {
+    min-height: 108px;
+    padding: 16px 14px;
+  }
+
+  .skillItem::before {
+    top: 16px;
+    bottom: 16px;
+  }
+
+  .skillIcon {
+    width: 28px;
+    height: 28px;
+    font-size: 17px;
   }
 
   .skillName {
@@ -238,15 +371,6 @@
   }
 
   .description {
-    margin-top: 12px;
-    font-size: 11px;
-  }
-
-  .guide {
-    margin-top: 20px;
-  }
-
-  .guideText {
-    font-size: 9px;
+    font-size: 10px;
   }
 }

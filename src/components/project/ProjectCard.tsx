@@ -1,4 +1,6 @@
 import type { KeyboardEvent, MouseEvent } from 'react';
+import { SiGithub } from 'react-icons/si';
+import { ExternalLink } from 'lucide-react';
 import type { Project } from '../../types/project.types';
 import styles from './project.module.css';
 
@@ -66,7 +68,7 @@ export default function ProjectCard({
                 aria-label="프로젝트 바로가기"
                 onClick={handleLinkClick}
               >
-                ↗
+                <ExternalLink size={16} />
               </a>
             )}
 
@@ -79,7 +81,7 @@ export default function ProjectCard({
                 aria-label="GitHub 바로가기"
                 onClick={handleLinkClick}
               >
-                ●
+                <SiGithub size={16} />
               </a>
             )}
           </div>

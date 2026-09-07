@@ -7,12 +7,13 @@ import styles from './activity.module.css';
 
 const categories = [
   '전체',
+  '수상',
+  '연구',
+  '교내활동',
   '대외활동',
-  '해커톤',
+  '어학',
+  '프로젝트',
   '공모전',
-  '대회',
-  '스터디',
-  '밋업',
 ] as const;
 
 export default function Activity() {
@@ -48,12 +49,17 @@ export default function Activity() {
     };
   }, []);
 
+  // 실제 데이터가 존재하는 카테고리 또는 '전체'만 버튼으로 렌더링하고 싶다면 아래와 같이 동적으로 필터링할 수도 있습니다.
+  const displayCategories = categories.filter(
+    (cat) => cat === '전체' || activities.some((act) => act.category === cat),
+  );
+
   const filteredActivities =
     selectedCategory === '전체'
       ? activities
       : activities.filter(
-          (activity) => activity.category === selectedCategory,
-        );
+        (activity) => activity.category === selectedCategory,
+      );
 
   const updateActiveActivity = useCallback(() => {
     if (filteredActivities.length === 0) return;
@@ -133,7 +139,7 @@ export default function Activity() {
     const firstActivity = filteredActivities[0];
     setActiveActivityId(firstActivity.id);
     lastActiveId.current = firstActivity.id;
-  }, [selectedCategory]);
+  }, [selectedCategory, filteredActivities]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -183,15 +189,14 @@ export default function Activity() {
         </header>
 
         <div className={styles.categoryList}>
-          {categories.map((category) => (
+          {displayCategories.map((category) => (
             <button
               key={category}
               type="button"
-              className={`${styles.categoryButton} ${
-                selectedCategory === category
+              className={`${styles.categoryButton} ${selectedCategory === category
                   ? styles.categoryButtonActive
                   : ''
-              }`}
+                }`}
               onClick={() => handleCategoryChange(category)}
             >
               {category}

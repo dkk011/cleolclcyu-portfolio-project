@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import type { MouseEvent } from 'react';
+import { SiGithub } from 'react-icons/si';
+import { ExternalLink, X } from 'lucide-react';
 import type { Project } from '../../types/project.types';
 import styles from './project.module.css';
 
@@ -65,7 +67,7 @@ export default function ProjectDetailModal({
           onClick={onClose}
           aria-label="프로젝트 상세 닫기"
         >
-          ×
+          <X size={20} />
         </button>
 
         <div className={styles.modalHeader}>
@@ -86,7 +88,7 @@ export default function ProjectDetailModal({
                   className={styles.iconLink}
                   aria-label="프로젝트 바로가기"
                 >
-                  ↗
+                  <ExternalLink size={18} />
                 </a>
               )}
 
@@ -98,7 +100,7 @@ export default function ProjectDetailModal({
                   className={styles.iconLink}
                   aria-label="GitHub 바로가기"
                 >
-                  ●
+                  <SiGithub size={18} />
                 </a>
               )}
             </div>

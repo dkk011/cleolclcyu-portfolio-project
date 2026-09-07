@@ -1,14 +1,131 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+
+import {
+  SiAndroid,
+  SiCss,
+  SiDart,
+  SiExpress,
+  SiFigma,
+  SiFirebase,
+  SiFlutter,
+  SiGit,
+  SiGithub,
+  SiGooglemaps,
+  SiJavascript,
+  SiKakaotalk,
+  SiKotlin,
+  SiLinux,
+  SiMqtt,
+  SiMysql,
+  SiNodedotjs,
+  SiOpenapiinitiative,
+  SiPython,
+  SiCplusplus,
+  SiQt,
+  SiReact,
+  SiReactquery,
+  SiRedux,
+  SiSpotify,
+  SiSupabase,
+  SiTypescript,
+} from 'react-icons/si';
+import { FaAws } from 'react-icons/fa';
+
 import { getSkills } from '../../api/skill/getSkills';
-import type { Skill as SkillType, SkillCategory } from '../../types/skill.types';
+
+import type {
+  Skill as SkillType,
+  SkillCategory,
+} from '../../types/skill.types';
+
 import styles from './skill.module.css';
 
 const categories: SkillCategory[] = [
   'Frontend',
   'Backend',
-  'Data',
+  'Mobile',
+  'Language',
+  'Cloud / API',
+  'Embedded / IoT',
   'Tools',
 ];
+
+const skillIcons: Record<string, React.ComponentType<{ size?: number; color?: string; className?: string }>> = {
+  react: SiReact,
+  typescript: SiTypescript,
+  javascript: SiJavascript,
+  css: SiCss,
+  nodejs: SiNodedotjs,
+  express: SiExpress,
+  kotlin: SiKotlin,
+  android: SiAndroid,
+  flutter: SiFlutter,
+  dart: SiDart,
+  qt: SiQt,
+  mysql: SiMysql,
+  firebase: SiFirebase,
+  supabase: SiSupabase,
+  reactquery: SiReactquery,
+  redux: SiRedux,
+  python: SiPython,
+  cpp: SiCplusplus,
+  'c++': SiCplusplus,
+  aws: FaAws,
+  amazons3: FaAws,
+  googlemaps: SiGooglemaps,
+  kakao: SiKakaotalk,
+  spotify: SiSpotify,
+  linux: SiLinux,
+  mqtt: SiMqtt,
+  git: SiGit,
+  github: SiGithub,
+  figma: SiFigma,
+};
+
+const skillIconColors: Record<string, string> = {
+  react: '#61DAFB',
+  typescript: '#3178C6',
+  javascript: '#F7DF1E',
+  css: '#1572B6',
+  nodejs: '#5FA04E',
+  express: '#000000',
+  kotlin: '#7F52FF',
+  android: '#3DDC84',
+  flutter: '#02569B',
+  dart: '#0175C2',
+  qt: '#41CD52',
+  mysql: '#4479A1',
+  firebase: '#FFCA28',
+  supabase: '#3FCF8E',
+  reactquery: '#FF4154',
+  redux: '#764ABC',
+  python: '#3776AB',
+  cpp: '#00599C',
+  'c++': '#00599C',
+  aws: '#FF9900',
+  amazons3: '#569A31',
+  googlemaps: '#4285F4',
+  kakao: '#FEE500',
+  spotify: '#1DB954',
+  linux: '#FCC624',
+  mqtt: '#660066',
+  git: '#F05032',
+  github: '#181717',
+  figma: '#F24E1E',
+};
+
+function getSkillIcon(icon: string) {
+  return skillIcons[icon.toLowerCase()] ?? null;
+}
+
+function getSkillIconColor(icon: string) {
+  return skillIconColors[icon.toLowerCase()] ?? '#20242a';
+}
 
 export default function Skill() {
   const [skills, setSkills] = useState<SkillType[]>([]);
@@ -36,16 +153,17 @@ export default function Skill() {
     };
   }, []);
 
-  // 실제 카테고리 트랙의 가로 길이에 맞춰 섹션의 전체 스크롤 높이를 동적 할당
   const updateSectionHeight = useCallback(() => {
     const section = sectionRef.current;
     const track = trackRef.current;
     const categoryTrack = categoryTrackRef.current;
 
-    if (!section || !track || !categoryTrack) return;
+    if (!section || !track || !categoryTrack) {
+      return;
+    }
 
     const maxScrollDistance = categoryTrack.scrollWidth - track.clientWidth;
-    // 전체 세로 스크롤 높이 = 뷰포트 높이(100vh) + 가로로 밀어야 하는 총 거리
+
     section.style.height = `${window.innerHeight + Math.max(0, maxScrollDistance)}px`;
   }, []);
 
@@ -61,18 +179,18 @@ export default function Skill() {
     const rect = section.getBoundingClientRect();
     const maxHorizontalScroll = categoryTrack.scrollWidth - track.clientWidth;
 
-    if (maxHorizontalScroll <= 0) return;
+    if (maxHorizontalScroll <= 0) {
+      return;
+    }
 
-    // 섹션 상단이 화면 상단에 닿는 순간(sticky 활성화)부터 가로 스크롤 개시
     const scrolledY = -rect.top;
     const progress = Math.min(Math.max(scrolledY / maxHorizontalScroll, 0), 1);
 
-    // 하드웨어 가속 기반 translate
     categoryTrack.style.transform = `translateX(-${progress * maxHorizontalScroll}px)`;
 
     const categoryIndex = Math.min(
       Math.floor(progress * categories.length),
-      categories.length - 1
+      categories.length - 1,
     );
 
     setCurrentCategory(categoryIndex);
@@ -82,11 +200,17 @@ export default function Skill() {
     updateSectionHeight();
     syncScroll();
 
-    window.addEventListener('scroll', syncScroll, { passive: true });
-    window.addEventListener('resize', () => {
+    const handleScroll = () => {
+      syncScroll();
+    };
+
+    const handleResize = () => {
       updateSectionHeight();
       syncScroll();
-    });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleResize);
 
     const resizeObserver = new ResizeObserver(() => {
       updateSectionHeight();
@@ -97,9 +221,13 @@ export default function Skill() {
       resizeObserver.observe(categoryTrackRef.current);
     }
 
+    if (trackRef.current) {
+      resizeObserver.observe(trackRef.current);
+    }
+
     return () => {
-      window.removeEventListener('scroll', syncScroll);
-      window.removeEventListener('resize', syncScroll);
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
       resizeObserver.disconnect();
     };
   }, [updateSectionHeight, syncScroll]);
@@ -131,23 +259,36 @@ export default function Skill() {
                       categoryIndex === currentCategory ? styles.categoryActive : ''
                     }`}
                   >
-                    <h3 className={styles.categoryTitle}>
-                      {category.toUpperCase()}
-                    </h3>
+                    <h3 className={styles.categoryTitle}>{category.toUpperCase()}</h3>
 
                     <div className={styles.skillList}>
-                      {categorySkills.map((skill) => (
-                        <article key={skill.id} className={styles.skillItem}>
-                          <div className={styles.skillHeader}>
-                            <div className={styles.skillIcon}>{skill.icon}</div>
-                            <h4 className={styles.skillName}>{skill.name}</h4>
-                          </div>
+                      {categorySkills.map((skill) => {
+                        const Icon = getSkillIcon(skill.icon);
 
-                          <p className={styles.description}>
-                            {skill.description}
-                          </p>
-                        </article>
-                      ))}
+                        return (
+                          <article key={skill.id} className={styles.skillItem}>
+                            <div className={styles.skillHeader}>
+                              <div className={styles.skillIcon}>
+                                {Icon ? (
+                                  <Icon
+                                    size={20}
+                                    aria-hidden="true"
+                                    color={getSkillIconColor(skill.icon)}
+                                  />
+                                ) : (
+                                  <span className={styles.fallbackIcon}>
+                                    {skill.icon.slice(0, 2).toUpperCase()}
+                                  </span>
+                                )}
+                              </div>
+
+                              <h4 className={styles.skillName}>{skill.name}</h4>
+                            </div>
+
+                            <p className={styles.description}>{skill.description}</p>
+                          </article>
+                        );
+                      })}
                     </div>
                   </section>
                 );

@@ -1,5 +1,5 @@
 .blog {
-  padding: 220px 0 160px;
+  padding: 180px 0 160px;
   scroll-margin-top: 72px;
   background: #ffffff;
 }
@@ -14,7 +14,7 @@
 }
 
 .eyebrow {
-  margin: 0 0 14px;
+  margin: 0 0 18px;
   font-size: 42px;
   font-weight: 800;
   line-height: 1;
@@ -23,17 +23,28 @@
 }
 
 .headingContent {
-  padding-top: 0;
+  padding: 0;
 }
 
 .title {
   margin: 0;
-  font-size: 32px;
+  font-size: clamp(42px, 4.5vw, 64px);
   font-weight: 800;
-  line-height: 1.3;
-  letter-spacing: -0.045em;
+  line-height: 1.12;
+  letter-spacing: -0.06em;
   word-break: keep-all;
   color: #111111;
+}
+
+.description {
+  max-width: 620px;
+  margin: 22px 0 0;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.8;
+  letter-spacing: -0.025em;
+  word-break: keep-all;
+  color: #69727d;
 }
 
 .list {
@@ -45,12 +56,13 @@
   grid-template-columns: 80px minmax(0, 1fr) 48px;
   align-items: center;
   gap: 32px;
-  min-height: 150px;
+  min-height: 154px;
   padding: 28px 8px;
   border-bottom: 1px solid #e5e8ed;
   transition:
     padding 0.3s ease,
-    background-color 0.3s ease;
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .item:hover {
@@ -61,8 +73,8 @@
 
 .number {
   align-self: flex-start;
-  padding-top: 4px;
-  font-size: 12px;
+  padding-top: 5px;
+  font-size: 11px;
   font-weight: 700;
   line-height: 1;
   letter-spacing: 0.04em;
@@ -93,17 +105,20 @@
 
 .itemTitle {
   margin: 0;
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 800;
   line-height: 1.4;
   letter-spacing: -0.04em;
   word-break: keep-all;
   color: #20242a;
-  transition: color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .item:hover .itemTitle {
   color: #3182f6;
+  transform: translateX(2px);
 }
 
 .itemDescription {
@@ -125,7 +140,7 @@
   height: 40px;
   border: 1px solid #e3e6ea;
   border-radius: 50%;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1;
   color: #8f97a1;
   transition:
@@ -152,23 +167,56 @@
 
 .empty p {
   font-size: 13px;
+  font-weight: 500;
   color: #9ca3ad;
 }
 
+@media (max-width: 1200px) {
+  .item {
+    grid-template-columns: 64px minmax(0, 1fr) 44px;
+    gap: 28px;
+  }
+}
+
 @media (max-width: 960px) {
+  .blog {
+    padding: 140px 0 120px;
+  }
+
+  .container {
+    width: calc(100% - 64px);
+  }
+
   .heading {
     margin-bottom: 56px;
+  }
+
+  .eyebrow {
+    font-size: 38px;
+  }
+
+  .title {
+    font-size: 30px;
+  }
+
+  .description {
+    font-size: 14px;
   }
 
   .item {
     grid-template-columns: 56px minmax(0, 1fr) 40px;
     gap: 24px;
+    min-height: 146px;
+  }
+
+  .itemTitle {
+    font-size: 20px;
   }
 }
 
 @media (max-width: 768px) {
   .blog {
-    padding: 140px 0 100px;
+    padding: 100px 0 80px;
     scroll-margin-top: 60px;
   }
 
@@ -181,7 +229,7 @@
   }
 
   .eyebrow {
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     font-size: 32px;
   }
 
@@ -190,14 +238,15 @@
   }
 
   .description {
-    margin-top: 12px;
+    margin-top: 14px;
     font-size: 12px;
+    line-height: 1.75;
   }
 
   .item {
     grid-template-columns: 34px minmax(0, 1fr) 32px;
     gap: 12px;
-    min-height: 130px;
+    min-height: 132px;
     padding: 24px 0;
   }
 
@@ -207,12 +256,18 @@
   }
 
   .number {
-    font-size: 10px;
+    padding-top: 4px;
+    font-size: 9px;
   }
 
   .meta {
+    gap: 8px;
     margin-bottom: 8px;
     font-size: 8px;
+  }
+
+  .meta span + span::before {
+    margin-right: 8px;
   }
 
   .itemTitle {
@@ -229,6 +284,54 @@
   .arrow {
     width: 30px;
     height: 30px;
-    font-size: 13px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .blog {
+    padding-top: 88px;
+  }
+
+  .eyebrow {
+    font-size: 28px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .description {
+    font-size: 11px;
+  }
+
+  .item {
+    grid-template-columns: 28px minmax(0, 1fr) 30px;
+    gap: 10px;
+    min-height: 124px;
+    padding: 22px 0;
+  }
+
+  .number {
+    font-size: 8px;
+  }
+
+  .meta {
+    font-size: 7px;
+  }
+
+  .itemTitle {
+    font-size: 15px;
+  }
+
+  .itemDescription {
+    font-size: 9px;
+  }
+
+  .arrow {
+    width: 28px;
+    height: 28px;
+
+    font-size: 11px;
   }
 }

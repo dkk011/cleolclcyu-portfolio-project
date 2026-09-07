@@ -1,8 +1,8 @@
 import styles from './navbar.module.css'
 
 const menuItems = [
-  { label: 'ABOUT', target: '#about' },
-  { label: 'WORDCLOUD', target: '#wordcloud' },
+  { label: 'ABOUT ME', target: '#aboutme' },
+  { label: 'ASK ME', target: '#askme' },
   { label: 'CAREER', target: '#career' },
   { label: 'SKILL', target: '#skill' },
   { label: 'PROJECT', target: '#project' },

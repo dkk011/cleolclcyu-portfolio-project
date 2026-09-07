@@ -4,6 +4,7 @@
 
 html {
   scroll-behavior: smooth;
+  background: #ffffff;
 }
 
 body {
@@ -17,11 +18,14 @@ body {
     'Pretendard',
     'Noto Sans KR',
     sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 button,
 input,
-textarea {
+textarea,
+select {
   font: inherit;
 }
 
@@ -46,6 +50,8 @@ h1,
 h2,
 h3,
 h4,
+h5,
+h6,
 p {
   margin: 0;
 }
@@ -55,4 +61,14 @@ ol {
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+::selection {
+  background: #3182f6;
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 2px solid #3182f6;
+  outline-offset: 3px;
 }
