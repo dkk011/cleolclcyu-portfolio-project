@@ -1,7 +1,6 @@
 # 공덕규's Portfolio
 
-> 화면 뒤의 로직이 사용자의 행동을 변화시킨다는 믿음으로,
-> 데이터 흐름의 안정성과 견고한 아키텍처를 바탕으로 완성도 높은 사용자 경험을 만듭니다.
+> 👉🏻 [cleolclcyu-portfolio.vercel.app] (https://cleolclcyu-portfolio.vercel.app/)
 
 React와 TypeScript를 기반으로 제작한 개인 포트폴리오 웹사이트입니다.
 
@@ -382,11 +381,13 @@ npm install
 
 ### 3. Environment Variables
 
-`.env` 파일에 Supabase와 AI API 관련 환경변수를 설정합니다.
+`.env` 파일에 Supabase 관련 환경변수를 설정합니다.
+
+AI API Key는 Supabase Edge Functions Secrets에 작성합니다.
 
 ```env
 VITE_SUPABASE_URL=
-VITE_SUPABASE_ANON_KEY=
+VITE_SUPABASE_PUBLISHABLE_KEY=
 ```
 
 > 실제 API Key와 Secret 값은 GitHub에 업로드하지 않습니다.
