@@ -15,6 +15,7 @@ export default function ProjectDetailModal({
   onClose,
 }: ProjectDetailModalProps) {
   useEffect(() => {
+    // Modal이 열린 상태에서 ESC 키 누르면 닫기
     const handleKeyDown = (
       event: KeyboardEvent,
     ) => {
@@ -23,13 +24,16 @@ export default function ProjectDetailModal({
       }
     };
 
+    // Modal 열려 있는 동안 ESC 키 이벤트 감지
     document.addEventListener(
       'keydown',
       handleKeyDown,
     );
 
+    // Modal 뒤쪽 페이지가 스크롤 되지 않게 방지
     document.body.style.overflow = 'hidden';
 
+    // Modal 닫히면 이벤트, 스크롤 제한 원래대로
     return () => {
       document.removeEventListener(
         'keydown',
@@ -40,6 +44,7 @@ export default function ProjectDetailModal({
     };
   }, [onClose]);
 
+  // Modal 바깥 배경 클릭하면 닫기
   const handleBackdropClick = (
     event: MouseEvent<HTMLDivElement>,
   ) => {
@@ -80,6 +85,7 @@ export default function ProjectDetailModal({
             </h2>
 
             <div className={styles.modalLinks}>
+              {/* url이 있으면 바로가기 아이콘 렌더링하고 없으면 렌더링 안 함 */}
               {project.live_url && (
                 <a
                   href={project.live_url}
@@ -127,6 +133,7 @@ export default function ProjectDetailModal({
           </p>
         </div>
 
+        // 프로젝트 이미지가 하나 이상 있을 때만 이미지 영역 보여주기
         {project.image_urls.length > 0 && (
           <div className={styles.imageList}>
             {project.image_urls.map(

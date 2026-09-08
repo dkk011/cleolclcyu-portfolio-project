@@ -24,6 +24,7 @@ export default function Closing() {
     fetchProfile();
   }, []);
 
+  // Profile 불러오기 전에는 빈 영역만 렌더링
   if (!profile) {
     return (
       <section
@@ -48,6 +49,7 @@ export default function Closing() {
             {profile.contact_title}
           </h2>
 
+          {/* contact_description이 있을 때만 설명 영역 렌더링 */}
           {profile.contact_description && (
             <p className={styles.description}>
               {profile.contact_description}
@@ -55,6 +57,7 @@ export default function Closing() {
           )}
 
           <div className={styles.actions}>
+            {/* 연락 버튼 url이 있을 때만 버튼 표시 */}
             {profile.contact_button_url && (
               <a
                 className={styles.contactButton}
@@ -74,6 +77,7 @@ export default function Closing() {
               </a>
             )}
 
+            {/* email이 있을 때만 mailto 링크 표시 */}
             {profile.email && (
               <a
                 className={styles.email}

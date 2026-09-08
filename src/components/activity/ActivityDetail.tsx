@@ -19,6 +19,7 @@ export default function ActivityDetail({
       </span>
 
       <h3 className={styles.detailTitle}>
+        {/* 상세 제목이 있으면 detail_title 사용하고 없으면 기본 활동 제목 사용 */}
         {activity.detail_title ??
           activity.title}
       </h3>
@@ -28,6 +29,7 @@ export default function ActivityDetail({
       </p>
 
       <div className={styles.detailContent}>
+        {/* 상세 제목이 있으면 detail_content 사용하고 없으면 기본 활동 내용 사용 */}
         {activity.detail_content ??
           activity.description}
       </div>

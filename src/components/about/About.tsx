@@ -4,11 +4,13 @@ import type { Profile } from "../../types/profile.types";
 import styles from "./about.module.css";
 
 export default function About() {
+  // 프로필 데이터를 저장하고 처음에는 아직 데이터가 없는 상태
   const [profile, setProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
+        // Supabase에서 프로필 데이터 조회
         const data = await getProfile();
         setProfile(data);
       } catch (error) {
@@ -19,6 +21,7 @@ export default function About() {
     fetchProfile();
   }, []);
 
+  // 프로필 데이터를 가져오기 전에는 빈 섹션만 보여줌
   if (!profile) {
     return <section id="aboutme" className={styles.about} />;
   }
@@ -34,6 +37,7 @@ export default function About() {
           <p className={styles.description}>{profile.description}</p>
 
           <div className={styles.links}>
+            {/* profile.email이 있을 때만 Email 링크 렌더링, 이메일이 null이면 오른쪽 JSX도 렌더링 안 됨 */}
             {profile.email && (
               <a
                 className={styles.link}
@@ -44,6 +48,7 @@ export default function About() {
               </a>
             )}
 
+            {/* GitHub 주소가 있을 때만 GitHub 링크 렌더링하고 DB에 URL이 없으면 링크 표시 안 됨 */}
             {profile.github_url && (
               <a
                 className={styles.link}
@@ -82,6 +87,7 @@ export default function About() {
           </div>
         </div>
 
+        {/* 프로필 이미지가 등록되어 있을 때만 이미지 영역 표시 */}
         {profile.profile_image_url && (
           <div className={styles.profile}>
             <img

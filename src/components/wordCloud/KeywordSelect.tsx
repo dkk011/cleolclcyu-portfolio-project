@@ -7,6 +7,7 @@ interface KeywordSelectProps {
   onSelectKeyword: (keyword: Keyword) => void;
 }
 
+// 각 키워드가 조금씩 다르게 움지이도록 애니메이션 값 설정
 const FLOATING_PRESETS = [
   { delay: '0s', duration: '5.4s', rot: '2deg' },
   { delay: '-1.8s', duration: '6.2s', rot: '-3deg' },
@@ -27,6 +28,8 @@ export default function KeywordSelect({
     <div className={styles.keywordCloud}>
       {keywords.map((keyword, index) => {
         const isSelected = selectedKeyword === keyword.keyword;
+
+        // 키워드 인덱스로 미리 정해둔 애니메이션 값 선택
         const preset = FLOATING_PRESETS[index % FLOATING_PRESETS.length];
 
         return (
@@ -34,11 +37,14 @@ export default function KeywordSelect({
             key={keyword.keyword}
             type="button"
             className={`${styles.keyword} ${
+              // 선택된 키워드에만 active 스타일 추가
               isSelected ? styles.keywordActive : ''
             }`}
+            // 인덱스에 따라 키워드 크기 스타일 다르게
             data-size={index % 3}
             style={
               {
+                // CSS에서 사용할 애니메이션 값 전달
                 '--float-delay': preset.delay,
                 '--float-duration': preset.duration,
                 '--float-rot': preset.rot,
@@ -48,6 +54,7 @@ export default function KeywordSelect({
           >
             <span className={styles.keywordInner}>
               {keyword.keyword}
+              {/* 현재 선택된 키워드일 때만 점 보여주기 */}
               {isSelected && <span className={styles.activeDot} />}
             </span>
           </button>

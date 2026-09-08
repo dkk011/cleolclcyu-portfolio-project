@@ -17,13 +17,24 @@ const categories = [
 ] as const;
 
 export default function Activity() {
+  // 전체 활동 데이터
   const [activities, setActivities] = useState<ActivityType[]>([]);
+
+  // 현재 선택한 카테고리
   const [selectedCategory, setSelectedCategory] = useState<string>('전체');
+
+  // 현재 활성화된 활동 id
   const [activeActivityId, setActiveActivityId] = useState<number | null>(null);
+
+  // 오른쪽 상세 영역 위치
   const [detailOffset, setDetailOffset] = useState(0);
 
   const contentRef = useRef<HTMLDivElement | null>(null);
+
+  // 각 Activity 요소를 id로 찾아가기 위한 ref
   const activityRefs = useRef<Record<number, HTMLDivElement | null>>({});
+
+  // 이전에 활성화된 Activity id
   const lastActiveId = useRef<number | null>(null);
 
   useEffect(() => {
@@ -35,6 +46,7 @@ export default function Activity() {
 
         setActivities(data);
 
+        // 처음 데이터를 가져왔을 때 첫 번째 활동을 활성화
         if (data.length > 0) {
           setActiveActivityId(data[0].id);
           lastActiveId.current = data[0].id;
@@ -49,11 +61,12 @@ export default function Activity() {
     };
   }, []);
 
-  // 실제 데이터가 존재하는 카테고리 또는 '전체'만 버튼으로 렌더링하고 싶다면 아래와 같이 동적으로 필터링할 수도 있습니다.
+  // 전체는 항상 표시, 나머지는 실제 데이터가 존재하는 카테고리만 화면에 표시
   const displayCategories = categories.filter(
     (cat) => cat === '전체' || activities.some((act) => act.category === cat),
   );
 
+  // 전체를 선택하면 전체 데이터 그대로 사용, 특정 카테고리 선택하면 해당 카테고리만 filter로 가져오기
   const filteredActivities =
     selectedCategory === '전체'
       ? activities
@@ -68,6 +81,7 @@ export default function Activity() {
     let closestActivity = filteredActivities[0];
     let closestDistance = Infinity;
 
+    // 현재 화면에서 기준 위치와 가장 가까운 활동 찾기
     filteredActivities.forEach((activity) => {
       const element = activityRefs.current[activity.id];
       if (!element) return;
@@ -130,6 +144,7 @@ export default function Activity() {
   }, [activeActivityId]);
 
   useEffect(() => {
+    // 카테고리를 변경하면 filteredActivities가 달라지고 이 목록의 첫 번째 활동을 다시 활성화
     if (filteredActivities.length === 0) {
       setActiveActivityId(null);
       lastActiveId.current = null;
@@ -169,6 +184,7 @@ export default function Activity() {
     requestAnimationFrame(updateDetailPosition);
   }, [activeActivityId, updateDetailPosition]);
 
+  // 현재 활성화된 id와 일치하는 활동 찾기, 못 찾으면 첫 번째 활동 사용
   const activeActivity =
     filteredActivities.find(
       (activity) => activity.id === activeActivityId,
@@ -189,11 +205,14 @@ export default function Activity() {
         </header>
 
         <div className={styles.categoryList}>
+          {/* 카테고리 이름을 key로 배열을 순회하며 버튼 생성 */}
           {displayCategories.map((category) => (
             <button
               key={category}
               type="button"
-              className={`${styles.categoryButton} ${selectedCategory === category
+              className={`${styles.categoryButton} ${
+                // 현재 선택된 카테고리면 active 스타일 적용하고 아니면 빈 문자열
+                selectedCategory === category
                   ? styles.categoryButtonActive
                   : ''
                 }`}
@@ -208,6 +227,8 @@ export default function Activity() {
           <div className={styles.timeline}>
             <div className={styles.timelineLine} aria-hidden="true" />
 
+            {/* 필터링 된 활동 목록을 map으로 렌더링
+            Activity 하나가 ActivityItem 컴포넌트로 */}
             {filteredActivities.map((activity) => (
               <ActivityItem
                 key={activity.id}
@@ -226,6 +247,7 @@ export default function Activity() {
               transform: `translateY(${detailOffset}px)`,
             }}
           >
+            {/* activeActivity가 존재할 때면 상세 정보 보여주기 */}
             {activeActivity && <ActivityDetail activity={activeActivity} />}
           </div>
         </div>

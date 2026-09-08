@@ -11,7 +11,7 @@
   display: flex;
   align-items: center;
   width: 100%;
-  min-height: 100vh;
+  height: 100vh;
   overflow: hidden;
 }
 
@@ -50,7 +50,7 @@
 .track {
   width: max-content;
   will-change: transform;
-  transition: transform 0.08s linear;
+  transition: none;
 }
 
 .timeline {
@@ -234,14 +234,16 @@
 
 @media (max-width: 768px) {
   .career {
+    height: auto !important;
     min-height: auto;
     scroll-margin-top: 60px;
   }
 
   .sticky {
     position: relative;
-    min-height: auto;
+    top: auto;
     height: auto;
+    min-height: auto;
     overflow: visible;
   }
 
@@ -265,6 +267,7 @@
   .viewport {
     overflow-x: auto;
     overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
 
@@ -274,7 +277,6 @@
 
   .track {
     transform: none !important;
-    transition: none;
   }
 
   .timeline {

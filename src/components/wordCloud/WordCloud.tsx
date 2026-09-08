@@ -6,13 +6,18 @@ import KeywordSelect from './KeywordSelect';
 import styles from './wordcloud.module.css';
 
 export default function WordCloud() {
+  // Supabase에서 가져온 전체 키워드 목록 저장
   const [keywords, setKeywords] = useState<Keyword[]>([]);
+
+  // 현재 선택한 키워드 저장
   const [selectedKeyword, setSelectedKeyword] =
     useState<Keyword | null>(null);
 
   useEffect(() => {
+    // 비동기로 키워드 데이터 조회
     const fetchKeywords = async () => {
       try {
+        // Supabase에서 키워드 목록 가져와서 저장
         const data = await getKeywords();
         setKeywords(data);
       } catch (error) {
@@ -23,6 +28,7 @@ export default function WordCloud() {
     fetchKeywords();
   }, []);
 
+  // 키워드 선택하면 상태로 저장하고 Chatbot에 전달
   const handleSelectKeyword = (keyword: Keyword) => {
     setSelectedKeyword(keyword);
   };
@@ -47,6 +53,7 @@ export default function WordCloud() {
 
         <div className={styles.content}>
           <div className={styles.keywordArea}>
+            {/* 키워드 목록, 선택 상태를 KeywordSelect에 전달 */}
             <KeywordSelect
               keywords={keywords}
               selectedKeyword={
@@ -57,6 +64,7 @@ export default function WordCloud() {
           </div>
 
           <div className={styles.chatArea}>
+            {/* 선택된 키워드를 Chatbot에 전달 */}
             <Chatbot
               selectedKeyword={selectedKeyword}
             />
