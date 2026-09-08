@@ -1,5 +1,5 @@
 .wordcloud {
-  padding: 180px 0 160px;
+  padding: 160px 0 140px;
   scroll-margin-top: 72px;
   background: #ffffff;
 }
@@ -10,12 +10,12 @@
 }
 
 .heading {
-  margin-bottom: 72px;
+  margin-bottom: 64px;
 }
 
 .eyebrow {
   margin-bottom: 18px;
-  font-size: 42px;
+  font-size: 44px;
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.045em;
@@ -23,7 +23,7 @@
 }
 
 .title {
-  font-size: clamp(42px, 4.5vw, 64px);
+  font-size: clamp(44px, 4.5vw, 66px);
   font-weight: 800;
   line-height: 1.12;
   letter-spacing: -0.06em;
@@ -32,9 +32,9 @@
 }
 
 .description {
-  max-width: 620px;
+  max-width: 660px;
   margin-top: 24px;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 400;
   line-height: 1.8;
   letter-spacing: -0.025em;
@@ -72,7 +72,7 @@
 .keyword {
   position: relative;
   padding: 10px 18px;
-  font-size: 24px;
+  font-size: 25px;
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.045em;
@@ -120,7 +120,6 @@
   z-index: 20;
 }
 
-
 .activeDot {
   width: 7px;
   height: 7px;
@@ -131,19 +130,19 @@
 }
 
 .keyword[data-size='0'] {
-  font-size: 38px;
+  font-size: 40px;
   font-weight: 800;
   color: #1a1e24;
 }
 
 .keyword[data-size='1'] {
-  font-size: 22px;
+  font-size: 23px;
   font-weight: 600;
   color: #9aa3af;
 }
 
 .keyword[data-size='2'] {
-  font-size: 30px;
+  font-size: 32px;
   font-weight: 800;
   color: #667080;
 }
@@ -200,14 +199,14 @@
 .chatLabel {
   display: block;
   margin-bottom: 8px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.1em;
   color: #3182f6;
 }
 
 .chatTitle {
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
   line-height: 1.45;
   letter-spacing: -0.04em;
@@ -227,14 +226,14 @@
 }
 
 .selectedKeyword span {
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.05em;
   color: #9aa5b4;
 }
 
 .selectedKeyword strong {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   color: #3182f6;
 }
@@ -276,12 +275,10 @@
 .suggestedQuestionLabel {
   display: block;
   margin-bottom: 8px;
-
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   line-height: 1.4;
   letter-spacing: 0.04em;
-
   color: #9aa2ad;
 }
 
@@ -290,27 +287,19 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-
   width: 100%;
   padding: 13px 14px;
-
   border: 1px solid #e4e9ef;
   border-radius: 13px;
-
   background: #ffffff;
-
   text-align: left;
-
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1.55;
   letter-spacing: -0.025em;
   word-break: keep-all;
-
   color: #69727d;
-
   box-shadow: 0 2px 8px rgba(17, 17, 17, 0.025);
-
   transition:
     border-color 0.2s ease,
     background-color 0.2s ease,
@@ -368,7 +357,7 @@
 }
 
 .chatEmpty p {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.75;
   letter-spacing: -0.025em;
   color: #9299a3;
@@ -404,7 +393,7 @@
 
 .messageLabel {
   margin-bottom: 6px;
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.07em;
   color: #a3a8b1;
@@ -416,8 +405,8 @@
 
 .messageBubble {
   padding: 12px 15px;
-  font-size: 13px;
-  line-height: 1.7;
+  font-size: 14px;
+  line-height: 1.75;
   letter-spacing: -0.025em;
   word-break: keep-all;
 }
@@ -461,7 +450,6 @@
 }
 
 @keyframes typing {
-
   0%,
   60%,
   100% {
@@ -497,7 +485,7 @@
   border-radius: 14px;
   outline: none;
   background: #f8f9fb;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.4;
   letter-spacing: -0.025em;
   color: #222222;
@@ -583,7 +571,19 @@
   }
 
   .heading {
-    margin-bottom: 56px;
+    margin-bottom: 52px;
+  }
+
+  .eyebrow {
+    font-size: 40px;
+  }
+
+  .title {
+    font-size: 34px;
+  }
+
+  .description {
+    font-size: 16px;
   }
 
   .content {
@@ -598,11 +598,15 @@
   .chatbot {
     height: 460px;
   }
+
+  .messageBubble {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 768px) {
   .wordcloud {
-    padding: 100px 0 80px;
+    padding: 96px 0 76px;
     scroll-margin-top: 60px;
   }
 
@@ -611,12 +615,12 @@
   }
 
   .heading {
-    margin-bottom: 40px;
+    margin-bottom: 38px;
   }
 
   .eyebrow {
     margin-bottom: 14px;
-    font-size: 30px;
+    font-size: 32px;
   }
 
   .title {
@@ -626,7 +630,7 @@
 
   .description {
     margin-top: 18px;
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.75;
   }
 
@@ -643,19 +647,19 @@
 
   .keyword {
     padding: 6px 7px;
-    font-size: 20px;
+    font-size: 21px;
   }
 
   .keyword[data-size='0'] {
-    font-size: 26px;
+    font-size: 28px;
   }
 
   .keyword[data-size='1'] {
-    font-size: 18px;
+    font-size: 19px;
   }
 
   .keyword[data-size='2'] {
-    font-size: 31px;
+    font-size: 32px;
   }
 
   .chatbot {
@@ -670,11 +674,11 @@
 
   .chatLabel {
     margin-bottom: 6px;
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .chatTitle {
-    font-size: 16px;
+    font-size: 17px;
   }
 
   .selectedKeyword {
@@ -686,7 +690,7 @@
   }
 
   .selectedKeyword strong {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .chatBody {
@@ -700,7 +704,12 @@
 
   .messageBubble {
     padding: 11px 13px;
-    font-size: 12px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .messageLabel {
+    font-size: 9px;
   }
 
   .chatInput {
@@ -710,7 +719,7 @@
   .chatInput input {
     height: 42px;
     padding: 0 13px;
-    font-size: 12px;
+    font-size: 13px;
   }
 
   .chatInput button {
@@ -725,22 +734,22 @@
   }
 
   .suggestedQuestionLabel {
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .suggestedQuestion {
     padding: 11px 12px;
-    font-size: 11px;
+    font-size: 13px;
   }
 }
 
 @media (max-width: 480px) {
   .wordcloud {
-    padding-top: 88px;
+    padding-top: 84px;
   }
 
   .eyebrow {
-    font-size: 28px;
+    font-size: 30px;
   }
 
   .title {
@@ -748,7 +757,7 @@
   }
 
   .description {
-    font-size: 13px;
+    font-size: 14px;
   }
 
   .keywordCloud {
@@ -764,7 +773,23 @@
     padding: 17px 18px;
   }
 
+  .chatTitle {
+    font-size: 16px;
+  }
+
   .chatBody {
     padding: 18px;
+  }
+
+  .messageBubble {
+    font-size: 13px;
+  }
+
+  .chatInput input {
+    font-size: 13px;
+  }
+
+  .suggestedQuestion {
+    font-size: 12px;
   }
 }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import styles from './navbar.module.css';
 
 const menuItems = [
@@ -15,10 +16,12 @@ const menuItems = [
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState('aboutme');
 
+  // 모바일 메뉴가 열려 있는지 관리
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 120;
-
       let currentSection = 'aboutme';
 
       menuItems.forEach((item) => {
@@ -44,6 +47,11 @@ export default function Navbar() {
     };
   }, []);
 
+  // 모바일 메뉴에서 항목을 선택하면 메뉴를 닫음
+  const handleMenuClick = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
     <nav className={styles.navbar}>
       <div className={styles.inner}>
@@ -51,6 +59,7 @@ export default function Navbar() {
           공덕규's Portfolio
         </a>
 
+        {/* 데스크톱 메뉴 */}
         <div className={styles.menu}>
           {menuItems.map((item) => (
             <a
@@ -64,6 +73,45 @@ export default function Navbar() {
             </a>
           ))}
         </div>
+
+        {/* 모바일 햄버거 버튼 */}
+        <button
+          type="button"
+          className={`${styles.menuButton} ${
+            isMenuOpen ? styles.menuButtonOpen : ''
+          }`}
+          onClick={() => setIsMenuOpen((prev) => !prev)}
+          aria-label={isMenuOpen ? '메뉴 닫기' : '메뉴 열기'}
+          aria-expanded={isMenuOpen}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+      </div>
+
+      {/* 모바일 메뉴 */}
+      <div
+        className={`${styles.mobileMenu} ${
+          isMenuOpen ? styles.mobileMenuOpen : ''
+        }`}
+      >
+        {menuItems.map((item) => (
+          <a
+            key={item.target}
+            href={`#${item.target}`}
+            className={`${styles.mobileMenuItem} ${
+              activeSection === item.target ? styles.mobileActive : ''
+            }`}
+            onClick={handleMenuClick}
+          >
+            <span>{item.label}</span>
+
+            {activeSection === item.target && (
+              <span className={styles.mobileActiveDot} />
+            )}
+          </a>
+        ))}
       </div>
     </nav>
   );

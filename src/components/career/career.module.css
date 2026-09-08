@@ -21,12 +21,12 @@
 }
 
 .heading {
-  margin-bottom: 68px;
+  margin-bottom: 64px;
 }
 
 .eyebrow {
   margin: 0 0 16px;
-  font-size: 42px;
+  font-size: 44px;
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.045em;
@@ -35,7 +35,7 @@
 
 .title {
   margin: 0;
-  font-size: 32px;
+  font-size: 34px;
   font-weight: 800;
   line-height: 1.25;
   letter-spacing: -0.045em;
@@ -78,7 +78,7 @@
 .date {
   display: block;
   height: 40px;
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.025em;
@@ -109,9 +109,9 @@
 
 .itemTitle {
   margin: 0;
-  font-size: 21px;
+  font-size: 23px;
   font-weight: 800;
-  line-height: 1.35;
+  line-height: 1.4;
   letter-spacing: -0.04em;
   word-break: keep-all;
   color: #a1a8b1;
@@ -122,10 +122,10 @@
 
 .description {
   max-width: 290px;
-  margin-top: 12px;
-  font-size: 13px;
+  margin-top: 14px;
+  font-size: 16px;
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.75;
   letter-spacing: -0.025em;
   word-break: keep-all;
   color: #b5bbc3;
@@ -158,7 +158,7 @@
 }
 
 .guideText {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
   color: #a5abb3;
@@ -193,6 +193,7 @@
 
   .description {
     max-width: 270px;
+    font-size: 15px;
   }
 }
 
@@ -202,15 +203,15 @@
   }
 
   .heading {
-    margin-bottom: 58px;
+    margin-bottom: 56px;
   }
 
   .eyebrow {
-    font-size: 38px;
+    font-size: 40px;
   }
 
   .title {
-    font-size: 30px;
+    font-size: 32px;
   }
 
   .timeline {
@@ -223,12 +224,13 @@
   }
 
   .itemTitle {
-    font-size: 20px;
+    font-size: 21px;
   }
 
   .description {
     max-width: 260px;
-    font-size: 12px;
+    font-size: 15px;
+    line-height: 1.7;
   }
 }
 
@@ -252,16 +254,16 @@
   }
 
   .heading {
-    margin-bottom: 38px;
+    margin-bottom: 36px;
   }
 
   .eyebrow {
     margin-bottom: 12px;
-    font-size: 30px;
+    font-size: 32px;
   }
 
   .title {
-    font-size: 24px;
+    font-size: 26px;
   }
 
   .viewport {
@@ -294,7 +296,7 @@
 
   .date {
     height: 40px;
-    font-size: 14px;
+    font-size: 15px;
   }
 
   .dot {
@@ -308,14 +310,15 @@
   }
 
   .itemTitle {
-    font-size: 18px;
+    font-size: 19px;
+    line-height: 1.4;
   }
 
   .description {
     max-width: 220px;
     margin-top: 10px;
-    font-size: 11px;
-    line-height: 1.65;
+    font-size: 14px;
+    line-height: 1.7;
   }
 
   .itemActive .dot {
@@ -328,7 +331,7 @@
   }
 
   .guideText {
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .guideArrow {
@@ -342,15 +345,15 @@
   }
 
   .heading {
-    margin-bottom: 34px;
+    margin-bottom: 32px;
   }
 
   .eyebrow {
-    font-size: 28px;
+    font-size: 30px;
   }
 
   .title {
-    font-size: 22px;
+    font-size: 24px;
   }
 
   .timeline {
@@ -363,11 +366,12 @@
   }
 
   .itemTitle {
-    font-size: 17px;
+    font-size: 18px;
   }
 
   .description {
     max-width: 205px;
-    font-size: 10px;
+    font-size: 13px;
+    line-height: 1.7;
   }
 }

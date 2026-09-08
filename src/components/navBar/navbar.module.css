@@ -3,10 +3,8 @@
   top: 0;
   left: 0;
   z-index: 1000;
-
   width: 100%;
   height: 72px;
-
   border-bottom: 1px solid rgba(229, 231, 235, 0.8);
   background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(16px);
@@ -18,7 +16,6 @@
   align-items: center;
   justify-content: space-between;
   gap: 40px;
-
   width: min(1440px, calc(100% - 96px));
   height: 100%;
   margin: 0 auto;
@@ -26,13 +23,11 @@
 
 .logo {
   flex-shrink: 0;
-
   font-size: 17px;
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.035em;
   color: #111111;
-
   transition: color 0.2s ease;
 }
 
@@ -45,7 +40,6 @@
   align-items: center;
   justify-content: flex-end;
   gap: 26px;
-
   min-width: 0;
 }
 
@@ -90,6 +84,19 @@
   transform: scaleX(1);
 }
 
+
+/* 모바일에서는 햄버거 버튼 사용 */
+.menuButton {
+  display: none;
+}
+
+
+/* 모바일 메뉴 */
+.mobileMenu {
+  display: none;
+}
+
+
 @media (max-width: 960px) {
   .inner {
     width: calc(100% - 64px);
@@ -109,6 +116,7 @@
   }
 }
 
+
 @media (max-width: 768px) {
   .navbar {
     height: 60px;
@@ -123,24 +131,133 @@
     font-size: 14px;
   }
 
+  /* 기존 가로 메뉴는 모바일에서 숨김 */
   .menu {
-    flex: 1;
-    gap: 14px;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-
-  .menu::-webkit-scrollbar {
     display: none;
   }
 
-  .menuItem {
-    padding: 7px 0;
+  /* 햄버거 버튼 */
+  .menuButton {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 5px;
 
-    font-size: 9px;
-    letter-spacing: 0;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+
+    border: 0;
+    background: transparent;
+
+    cursor: pointer;
+  }
+
+  .menuButton span {
+    display: block;
+    width: 22px;
+    height: 2px;
+
+    border-radius: 999px;
+    background: #111111;
+
+    transition:
+      transform 0.25s ease,
+      opacity 0.2s ease,
+      width 0.25s ease;
+  }
+
+  /* 메뉴가 열리면 X 모양으로 변경 */
+  .menuButtonOpen span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .menuButtonOpen span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menuButtonOpen span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /*
+   * 모바일 메뉴는 navbar 아래에 펼쳐지는 형태
+   * display 대신 max-height로 열고 닫는 애니메이션 처리
+   */
+  .mobileMenu {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+
+    border-bottom: 1px solid transparent;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    opacity: 0;
+
+    transition:
+      max-height 0.3s ease,
+      opacity 0.2s ease,
+      border-color 0.3s ease;
+  }
+
+  .mobileMenuOpen {
+    max-height: 520px;
+    border-bottom-color: #e9edf2;
+    opacity: 1;
+  }
+
+  .mobileMenuItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    min-height: 52px;
+    padding: 0 20px;
+
+    border-bottom: 1px solid #f0f2f5;
+
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+
+    color: #8a919b;
+
+    transition:
+      color 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .mobileMenuItem:last-child {
+    border-bottom: 0;
+  }
+
+  .mobileMenuItem:hover {
+    background: #f7f9fc;
+    color: #111111;
+  }
+
+  /* 현재 보고 있는 section */
+  .mobileActive {
+    color: #3182f6;
+    background: #f7faff;
+  }
+
+  .mobileActiveDot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+    background: #3182f6;
   }
 }
+
 
 @media (max-width: 520px) {
   .inner {
@@ -151,11 +268,18 @@
     font-size: 13px;
   }
 
-  .menu {
-    gap: 12px;
+  .menuButton {
+    width: 36px;
+    height: 36px;
   }
 
-  .menuItem {
-    font-size: 8px;
+  .menuButton span {
+    width: 20px;
+  }
+
+  .mobileMenuItem {
+    min-height: 50px;
+    padding: 0 14px;
+    font-size: 12px;
   }
 }

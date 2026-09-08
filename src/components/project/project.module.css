@@ -1,5 +1,5 @@
 .project {
-  padding: 180px 0 160px;
+  padding: 160px 0 140px;
   scroll-margin-top: 72px;
   background: #ffffff;
 }
@@ -10,12 +10,12 @@
 }
 
 .heading {
-  margin-bottom: 72px;
+  margin-bottom: 64px;
 }
 
 .eyebrow {
   margin: 0 0 18px;
-  font-size: 42px;
+  font-size: 44px;
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.045em;
@@ -24,7 +24,7 @@
 
 .title {
   margin: 0;
-  font-size: clamp(42px, 4.5vw, 64px);
+  font-size: clamp(44px, 4.5vw, 64px);
   font-weight: 800;
   line-height: 1.12;
   letter-spacing: -0.06em;
@@ -35,7 +35,7 @@
 .projectList {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 26px;
 }
 
 .card {
@@ -124,7 +124,7 @@
 
 .cardTitle {
   margin: 0;
-  font-size: 25px;
+  font-size: 26px;
   font-weight: 800;
   line-height: 1.35;
   letter-spacing: -0.045em;
@@ -168,7 +168,7 @@
 
 .meta {
   margin: 10px 0 0;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   line-height: 1.5;
   letter-spacing: -0.02em;
@@ -179,18 +179,18 @@
   display: flex;
   flex-wrap: wrap;
   gap: 7px;
-  margin-top: 22px;
+  margin-top: 20px;
 }
 
 .tech {
   display: inline-flex;
   align-items: center;
-  min-height: 27px;
+  min-height: 28px;
   padding: 0 11px;
   border: 1px solid #e1ebfb;
   border-radius: 999px;
   background: #f3f7ff;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   line-height: 1;
   color: #3182f6;
@@ -199,7 +199,7 @@
 .cardDescription {
   max-width: 680px;
   margin: 16px 0 0;
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 500;
   line-height: 1.75;
   letter-spacing: -0.025em;
@@ -294,7 +294,7 @@
 
 .modalTitle {
   margin: 0;
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 800;
   line-height: 1.3;
   letter-spacing: -0.045em;
@@ -319,12 +319,12 @@
 .modalTechStack span {
   display: inline-flex;
   align-items: center;
-  min-height: 27px;
+  min-height: 28px;
   padding: 0 11px;
   border: 1px solid #e1ebfb;
   border-radius: 999px;
   background: #f3f7ff;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   line-height: 1;
   color: #3182f6;
@@ -332,7 +332,7 @@
 
 .modalMeta {
   margin: 13px 0 0;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   line-height: 1.5;
   letter-spacing: -0.02em;
@@ -342,9 +342,9 @@
 .modalDescription {
   max-width: 720px;
   margin: 18px 0 0;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
-  line-height: 1.75;
+  line-height: 1.8;
   letter-spacing: -0.025em;
   word-break: keep-all;
   color: #59616c;
@@ -395,7 +395,7 @@
 
 .detail p {
   margin: 0;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1.9;
   letter-spacing: -0.025em;
@@ -414,13 +414,17 @@
   }
 
   .cardTitle {
-    font-size: 23px;
+    font-size: 24px;
+  }
+
+  .cardDescription {
+    font-size: 15px;
   }
 }
 
 @media (max-width: 960px) {
   .project {
-    padding: 140px 0 120px;
+    padding: 130px 0 110px;
   }
 
   .container {
@@ -428,15 +432,15 @@
   }
 
   .heading {
-    margin-bottom: 56px;
+    margin-bottom: 54px;
   }
 
   .eyebrow {
-    font-size: 38px;
+    font-size: 40px;
   }
 
   .title {
-    font-size: 30px;
+    font-size: 32px;
   }
 
   .projectList {
@@ -457,7 +461,7 @@
   }
 
   .cardTitle {
-    font-size: 21px;
+    font-size: 22px;
   }
 
   .techStack {
@@ -465,7 +469,7 @@
   }
 
   .cardDescription {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .imageList {
@@ -476,11 +480,19 @@
     width: min(880px, 100%);
     padding: 34px;
   }
+
+  .modalDescription {
+    font-size: 14px;
+  }
+
+  .detail p {
+    font-size: 13px;
+  }
 }
 
 @media (max-width: 768px) {
   .project {
-    padding: 100px 0 80px;
+    padding: 92px 0 72px;
     scroll-margin-top: 60px;
   }
 
@@ -494,11 +506,11 @@
 
   .eyebrow {
     margin-bottom: 14px;
-    font-size: 32px;
+    font-size: 33px;
   }
 
   .title {
-    font-size: 28px;
+    font-size: 29px;
   }
 
   .projectList {
@@ -508,7 +520,6 @@
   .card {
     grid-template-columns: 1fr;
     min-height: auto;
-
     border-radius: 22px;
   }
 
@@ -536,7 +547,6 @@
   .iconLink {
     width: 28px;
     height: 28px;
-
     font-size: 13px;
   }
 
@@ -551,14 +561,14 @@
   }
 
   .tech {
-    min-height: 25px;
+    min-height: 26px;
     padding: 0 10px;
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .cardDescription {
     margin-top: 13px;
-    font-size: 11px;
+    font-size: 14px;
     line-height: 1.7;
   }
 
@@ -570,22 +580,17 @@
   .modal {
     width: 100%;
     max-height: 94vh;
-
     padding: 30px 20px 24px;
-
     border-radius: 26px 26px 0 0;
     border-bottom: 0;
-
     box-shadow: 0 -10px 40px rgba(17, 17, 17, 0.1);
   }
 
   .closeButton {
     top: 16px;
     right: 16px;
-
     width: 34px;
     height: 34px;
-
     font-size: 23px;
   }
 
@@ -598,7 +603,7 @@
   }
 
   .modalTitle {
-    font-size: 21px;
+    font-size: 22px;
   }
 
   .modalTechStack {
@@ -607,9 +612,9 @@
   }
 
   .modalTechStack span {
-    min-height: 25px;
+    min-height: 26px;
     padding: 0 10px;
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .modalMeta {
@@ -619,8 +624,8 @@
 
   .modalDescription {
     margin-top: 14px;
-    font-size: 11px;
-    line-height: 1.7;
+    font-size: 13px;
+    line-height: 1.75;
   }
 
   .imageList {
@@ -641,22 +646,22 @@
   }
 
   .detail p {
-    font-size: 11px;
+    font-size: 12px;
     line-height: 1.8;
   }
 }
 
 @media (max-width: 480px) {
   .project {
-    padding-top: 88px;
+    padding-top: 82px;
   }
 
   .eyebrow {
-    font-size: 28px;
+    font-size: 30px;
   }
 
   .title {
-    font-size: 24px;
+    font-size: 25px;
   }
 
   .cardContent {
@@ -672,11 +677,12 @@
   }
 
   .tech {
-    font-size: 8px;
+    font-size: 9px;
   }
 
   .cardDescription {
-    font-size: 10px;
+    font-size: 13px;
+    line-height: 1.7;
   }
 
   .modal {
@@ -684,11 +690,11 @@
   }
 
   .modalTitle {
-    font-size: 19px;
+    font-size: 20px;
   }
 
   .modalDescription {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .detail {
@@ -696,6 +702,6 @@
   }
 
   .detail p {
-    font-size: 10px;
+    font-size: 11px;
   }
 }

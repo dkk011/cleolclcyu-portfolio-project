@@ -1,5 +1,5 @@
 .blog {
-  padding: 180px 0 160px;
+  padding: 160px 0 140px;
   scroll-margin-top: 72px;
   background: #ffffff;
 }
@@ -10,12 +10,12 @@
 }
 
 .heading {
-  margin-bottom: 72px;
+  margin-bottom: 64px;
 }
 
 .eyebrow {
   margin: 0 0 18px;
-  font-size: 42px;
+  font-size: 44px;
   font-weight: 800;
   line-height: 1;
   letter-spacing: -0.045em;
@@ -28,7 +28,7 @@
 
 .title {
   margin: 0;
-  font-size: clamp(42px, 4.5vw, 64px);
+  font-size: clamp(44px, 4.5vw, 64px);
   font-weight: 800;
   line-height: 1.12;
   letter-spacing: -0.06em;
@@ -39,7 +39,7 @@
 .description {
   max-width: 620px;
   margin: 22px 0 0;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 400;
   line-height: 1.8;
   letter-spacing: -0.025em;
@@ -74,7 +74,7 @@
 .number {
   align-self: flex-start;
   padding-top: 5px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   line-height: 1;
   letter-spacing: 0.04em;
@@ -90,7 +90,7 @@
   align-items: center;
   gap: 10px;
   margin-bottom: 10px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   line-height: 1.4;
   letter-spacing: 0.03em;
@@ -105,7 +105,7 @@
 
 .itemTitle {
   margin: 0;
-  font-size: 21px;
+  font-size: 23px;
   font-weight: 800;
   line-height: 1.4;
   letter-spacing: -0.04em;
@@ -124,7 +124,7 @@
 .itemDescription {
   max-width: 720px;
   margin: 10px 0 0;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 400;
   line-height: 1.7;
   letter-spacing: -0.02em;
@@ -166,7 +166,7 @@
 }
 
 .empty p {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
   color: #9ca3ad;
 }
@@ -176,11 +176,15 @@
     grid-template-columns: 64px minmax(0, 1fr) 44px;
     gap: 28px;
   }
+
+  .itemDescription {
+    font-size: 15px;
+  }
 }
 
 @media (max-width: 960px) {
   .blog {
-    padding: 140px 0 120px;
+    padding: 130px 0 110px;
   }
 
   .container {
@@ -188,19 +192,19 @@
   }
 
   .heading {
-    margin-bottom: 56px;
+    margin-bottom: 54px;
   }
 
   .eyebrow {
-    font-size: 38px;
+    font-size: 40px;
   }
 
   .title {
-    font-size: 30px;
+    font-size: 32px;
   }
 
   .description {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .item {
@@ -210,13 +214,17 @@
   }
 
   .itemTitle {
-    font-size: 20px;
+    font-size: 21px;
+  }
+
+  .itemDescription {
+    font-size: 14px;
   }
 }
 
 @media (max-width: 768px) {
   .blog {
-    padding: 100px 0 80px;
+    padding: 92px 0 72px;
     scroll-margin-top: 60px;
   }
 
@@ -225,21 +233,21 @@
   }
 
   .heading {
-    margin-bottom: 44px;
+    margin-bottom: 40px;
   }
 
   .eyebrow {
     margin-bottom: 14px;
-    font-size: 32px;
+    font-size: 33px;
   }
 
   .title {
-    font-size: 28px;
+    font-size: 29px;
   }
 
   .description {
     margin-top: 14px;
-    font-size: 12px;
+    font-size: 15px;
     line-height: 1.75;
   }
 
@@ -257,13 +265,13 @@
 
   .number {
     padding-top: 4px;
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .meta {
     gap: 8px;
     margin-bottom: 8px;
-    font-size: 8px;
+    font-size: 9px;
   }
 
   .meta span + span::before {
@@ -271,14 +279,14 @@
   }
 
   .itemTitle {
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.45;
   }
 
   .itemDescription {
     margin-top: 8px;
-    font-size: 10px;
-    line-height: 1.65;
+    font-size: 13px;
+    line-height: 1.7;
   }
 
   .arrow {
@@ -290,19 +298,19 @@
 
 @media (max-width: 480px) {
   .blog {
-    padding-top: 88px;
+    padding-top: 82px;
   }
 
   .eyebrow {
-    font-size: 28px;
+    font-size: 30px;
   }
 
   .title {
-    font-size: 24px;
+    font-size: 25px;
   }
 
   .description {
-    font-size: 11px;
+    font-size: 14px;
   }
 
   .item {
@@ -313,25 +321,25 @@
   }
 
   .number {
-    font-size: 8px;
+    font-size: 9px;
   }
 
   .meta {
-    font-size: 7px;
+    font-size: 8px;
   }
 
   .itemTitle {
-    font-size: 15px;
+    font-size: 17px;
   }
 
   .itemDescription {
-    font-size: 9px;
+    font-size: 12px;
+    line-height: 1.65;
   }
 
   .arrow {
     width: 28px;
     height: 28px;
-
     font-size: 11px;
   }
 }
