@@ -32,12 +32,13 @@
   color: #3182f6;
 }
 
+
 .title {
-  margin: 0;
-  font-size: 34px;
+  font-size: clamp(44px, 4.5vw, 66px);
   font-weight: 800;
-  line-height: 1.25;
-  letter-spacing: -0.045em;
+  line-height: 1.12;
+  letter-spacing: -0.06em;
+  word-break: keep-all;
   color: #111111;
 }
 

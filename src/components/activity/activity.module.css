@@ -22,9 +22,9 @@
   color: #3182f6;
 }
 
+
 .title {
-  margin: 0;
-  font-size: clamp(42px, 4.5vw, 64px);
+  font-size: clamp(44px, 4.5vw, 66px);
   font-weight: 800;
   line-height: 1.12;
   letter-spacing: -0.06em;

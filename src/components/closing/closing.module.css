@@ -27,10 +27,9 @@
   color: #3182f6;
 }
 
+
 .title {
-  max-width: 900px;
-  margin: 0;
-  font-size: clamp(50px, 5.5vw, 76px);
+  font-size: clamp(44px, 4.5vw, 66px);
   font-weight: 800;
   line-height: 1.12;
   letter-spacing: -0.06em;

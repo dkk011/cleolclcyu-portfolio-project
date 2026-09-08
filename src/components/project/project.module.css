@@ -22,9 +22,9 @@
   color: #3182f6;
 }
 
+
 .title {
-  margin: 0;
-  font-size: clamp(44px, 4.5vw, 64px);
+  font-size: clamp(44px, 4.5vw, 66px);
   font-weight: 800;
   line-height: 1.12;
   letter-spacing: -0.06em;
@@ -230,19 +230,23 @@
   border-radius: 30px;
   background: #ffffff;
   box-shadow: 0 18px 50px rgba(17, 17, 17, 0.13);
+  scrollbar-gutter: stable;
 }
 
 .modal::-webkit-scrollbar {
-  width: 5px;
+  width: 8px;
 }
 
 .modal::-webkit-scrollbar-track {
+  margin: 16px 0;
   background: transparent;
 }
 
 .modal::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
   border-radius: 999px;
   background: #d9dde4;
+  background-clip: padding-box;
 }
 
 .closeButton {
@@ -584,6 +588,18 @@
     border-radius: 26px 26px 0 0;
     border-bottom: 0;
     box-shadow: 0 -10px 40px rgba(17, 17, 17, 0.1);
+  }
+
+  .modal::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  .modal::-webkit-scrollbar-track {
+    margin: 12px 0 0;
+  }
+
+  .modal::-webkit-scrollbar-thumb {
+    border-width: 2px;
   }
 
   .closeButton {
