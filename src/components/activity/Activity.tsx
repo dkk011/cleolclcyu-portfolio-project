@@ -200,7 +200,7 @@ export default function Activity() {
     <section id="activity" className={styles.activity}>
       <div className={styles.container}>
         <header className={styles.heading}>
-          <p className={styles.eyebrow}>ACTIVITIES</p>
+          <p className={styles.eyebrow}>ACTIVITY</p>
           <h2 className={styles.title}>다양한 경험</h2>
         </header>
 

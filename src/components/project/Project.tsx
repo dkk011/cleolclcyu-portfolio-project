@@ -41,7 +41,7 @@ export default function Project() {
     >
       <div className={styles.container}>
         <header className={styles.heading}>
-          <p className={styles.eyebrow}>PROJECTS</p>
+          <p className={styles.eyebrow}>PROJECT</p>
 
           <h2 className={styles.title}>프로젝트</h2>
         </header>

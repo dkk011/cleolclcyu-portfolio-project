@@ -264,7 +264,7 @@ export default function Skill() {
       <div className={styles.sticky}>
         <div className={styles.container}>
           <header className={styles.heading}>
-            <p className={styles.eyebrow}>SKILLS</p>
+            <p className={styles.eyebrow}>SKILL</p>
             <h2 className={styles.title}>기술 스택</h2>
           </header>
 

@@ -25,7 +25,7 @@ export default function Blog() {
     <section id="blog" className={styles.blog}>
       <div className={styles.container}>
         <header className={styles.heading}>
-          <p className={styles.eyebrow}>BLOGS</p>
+          <p className={styles.eyebrow}>BLOG</p>
 
           <div className={styles.headingContent}>
             <h2 className={styles.title}>
