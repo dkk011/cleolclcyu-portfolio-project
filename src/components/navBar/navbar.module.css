@@ -51,36 +51,35 @@
 
 .menuItem {
   position: relative;
-
   flex-shrink: 0;
-
   padding: 8px 0;
-
   font-size: 11px;
   font-weight: 700;
   line-height: 1;
   letter-spacing: 0.02em;
   color: #8a919b;
-
   transition: color 0.2s ease;
 }
 
 .menuItem::after {
   content: '';
-
   position: absolute;
   right: 0;
   bottom: 1px;
   left: 0;
-
   height: 1px;
-
   background: #3182f6;
-
   transform: scaleX(0);
   transform-origin: center;
-
   transition: transform 0.2s ease;
+}
+
+.active {
+  color: #111111;
+}
+
+.active::after {
+  transform: scaleX(1);
 }
 
 .menuItem:hover {

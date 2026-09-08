@@ -133,7 +133,7 @@ export default function ProjectDetailModal({
           </p>
         </div>
 
-        // 프로젝트 이미지가 하나 이상 있을 때만 이미지 영역 보여주기
+        {/* 프로젝트 이미지가 하나 이상 있을 때만 이미지 영역 보여주기 */}
         {project.image_urls.length > 0 && (
           <div className={styles.imageList}>
             {project.image_urls.map(

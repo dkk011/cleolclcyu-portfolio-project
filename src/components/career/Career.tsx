@@ -138,9 +138,9 @@ export default function Career() {
             <h2 className={styles.title}>지금까지의 여정</h2>
           </header>
 
-          // track이 실제 화면에 보이는 viewport 영역보다 넓으므로 track을 좌우로 이동하면서 나머지 내용을 보여준다
+          {/* track이 실제 화면에 보이는 viewport 영역보다 넓으므로 track을 좌우로 이동하면서 나머지 내용을 보여준다 */}
           <div ref={viewportRef} className={styles.viewport}>
-            // track은 실제로 움직이는 부분
+            {/* track은 실제로 움직이는 부분 */}
             <div ref={trackRef} className={styles.track}>
               <div className={styles.timeline}>
                 <div className={styles.timelineLine} aria-hidden="true" />

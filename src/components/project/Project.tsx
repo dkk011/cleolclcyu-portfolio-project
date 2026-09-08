@@ -57,7 +57,7 @@ export default function Project() {
           ))}
         </div>
 
-        // 선택된 프로젝트가 있을 때만 상세 모달 보여주기, null이면 렌더링 안 함
+        {/* 선택된 프로젝트가 있을 때만 상세 모달 보여주기, null이면 렌더링 안 함 */}
         {selectedProject && (
           <ProjectDetailModal
             project={selectedProject}
